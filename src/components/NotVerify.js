@@ -3,24 +3,12 @@ import { auth } from "../Firebase";
 
 const NotVerify = () => {
   const [message, setMessage] = useState("");
-  let actionCodeSettings = {
-    url: "http://localhost:3000/home",
-    iOS: {
-      bundleId: "com.example.ios",
-    },
-    android: {
-      packageName: "com.example.android",
-      installApp: true,
-      minimumVersion: "12",
-    },
-    handleCodeInApp: false,
-    // When multiple custom dynamic link domains are defined, specify which
-    // one to use.
-    // dynamicLinkDomain: "example.page.link"
-  };
+
   const sendVerificationLink = () => {
     auth.currentUser
-      .sendEmailVerification()
+      .sendEmailVerification({
+        url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
+      })
       .then(() => {
         setMessage("email verified sucessfully");
       })
