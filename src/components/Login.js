@@ -1,27 +1,115 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { auth } from "../Firebase";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectUserEmail,
+  selectEmailVerified,
+  setUserLoginDetails,
+} from "../features/auth/UserSlice";
+import { useCallback } from "react";
+
 const Login = () => {
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required("username/email address is required"),
+      password: Yup.string().required("password is required"),
+    }),
+    onSubmit: (values, { resetForm }) => {
+      console.log(values);
+      const { username, password } = values;
+      auth
+        .signInWithEmailAndPassword(username, password)
+        .then((result) => {
+          console.log("user", result.user);
+          userDispatch(result.user);
+        })
+        .catch((err) => {
+          console.log("error", err.message);
+          userDispatch(null, true);
+        });
+    },
+  });
+  const userEmail = useSelector(selectUserEmail);
+  const isEmailVerified = useSelector(selectEmailVerified);
+  const dispatch = useDispatch();
+
+  const userDispatch = useCallback(
+    (payload, isError = false) => {
+      if (isError) {
+        dispatch(
+          setUserLoginDetails({
+            name: null,
+            email: null,
+            photo: null,
+            isEmailVerified: null,
+          })
+        );
+      } else {
+        const { displayName, photoURL, emailVerified, email } = payload;
+        dispatch(
+          setUserLoginDetails({
+            name: displayName,
+            email: email,
+            photo: photoURL,
+            isEmailVerified: emailVerified,
+          })
+        );
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        console.log("uuser", user);
+        userDispatch(user);
+      }
+    });
+  }, [userEmail, isEmailVerified, userDispatch]);
+
   return (
     <Container>
       <LoginContainer>
         <Heading>Sign in</Heading>
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
           <Wrap>
             <label>UserName / Email address</label>
-            <input type="text" placeholder="Enter username or email address" />
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter username or email address"
+              {...formik.getFieldProps("username")}
+            />
+            {formik.touched.username && formik.errors.username ? (
+              <p>{formik.errors.username}</p>
+            ) : null}
           </Wrap>
+
           <Wrap>
             <label>Password</label>
             <input
+              {...formik.getFieldProps("password")}
+              name="password"
               type="password"
               placeholder="**********"
               autoComplete="new-password"
             />
+            {formik.touched.password && formik.errors.password ? (
+              <p>{formik.errors.password}</p>
+            ) : null}
           </Wrap>
           <Bottom>
             <div className="button-design">
-              <button>Login</button>
+              <button type="submit">Login</button>
             </div>
 
             <Link to="/">Forgot password?</Link>
@@ -64,6 +152,12 @@ const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   margin: 1rem 0;
+  p {
+    margin-top: 2px;
+    color: red;
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
   label {
     font-size: 1.2rem;
     color: #585a5a;
