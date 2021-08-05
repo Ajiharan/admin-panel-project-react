@@ -1,25 +1,36 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 const Login = () => {
   return (
     <Container>
       <LoginContainer>
         <Heading>Sign in</Heading>
-        <Form></Form>
+        <Form>
+          <Wrap>
+            <label>UserName / Email address</label>
+            <input type="text" placeholder="Enter username or email address" />
+          </Wrap>
+          <Wrap>
+            <label>Password</label>
+            <input
+              type="password"
+              placeholder="**********"
+              autoComplete="new-password"
+            />
+          </Wrap>
+          <Bottom>
+            <div className="button-design">
+              <button>Login</button>
+            </div>
+
+            <Link to="/">Forgot password?</Link>
+          </Bottom>
+        </Form>
       </LoginContainer>
     </Container>
   );
 };
-
-const Form = styled.form``;
-const Heading = styled.h2`
-  text-transform: uppercase;
-  color: gray;
-  display: flex;
-  justify-content: center;
-  margin: 1rem 0;
-  align-items: center;
-`;
 
 const Container = styled.div`
   display: grid;
@@ -30,11 +41,100 @@ const Container = styled.div`
 `;
 
 const LoginContainer = styled.div`
-  width: 60vw;
+  display: flex;
+  border-top: 4px solid #1ad1ff;
+  flex-direction: column;
+  align-items: center;
+  width: 50vw;
   border-radius: 5px;
-  height: 80vh;
+  height: 60vh;
   background-color: #f7f7f7;
   box-shadow: rgb(0 0 0 / 20%) 1px 2px 12px 1px;
+`;
+const Form = styled.form`
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  width: 18rem;
+  padding: 1rem 0.2rem;
+  margin: 1rem 0.5rem;
+`;
+
+const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  label {
+    font-size: 1.2rem;
+    color: #585a5a;
+  }
+  input {
+    border-left: 4px solid lightblue;
+    letter-spacing: 1.3px;
+    border-radius: 4px;
+    padding: 0.7rem;
+    margin-top: 10px;
+    &:focus {
+      outline: 0;
+    }
+  }
+`;
+const Bottom = styled.div`
+  display: flex;
+  margin: 1rem 0;
+  align-items: center;
+  justify-content: space-around;
+
+  button {
+    text-transform: uppercase;
+    color: white;
+    width: 7rem;
+
+    height: 2rem;
+    padding: 0.5rem 0.5rem;
+    border: none;
+    background-color: #1aa3ff;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+
+    &:before {
+      content: "";
+      width: 0rem;
+      top: 0;
+      border-radius: 0 15px 25px 0;
+      height: 2rem;
+      z-index: -1;
+      left: 0;
+      transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+      opacity: 1;
+      position: absolute;
+      background-color: #33bbff;
+    }
+  }
+  .button-design {
+    &:hover {
+      button {
+        font-weight: 600;
+      }
+      button:before {
+        width: 3rem;
+      }
+    }
+  }
+  a {
+    text-decoration: none;
+    color: #3f3f40;
+  }
+`;
+const Heading = styled.h2`
+  text-transform: uppercase;
+  color: gray;
+  display: flex;
+  justify-content: center;
+  margin: 1rem 0;
+  align-items: center;
 `;
 
 export default Login;
