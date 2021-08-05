@@ -1,32 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../Firebase";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectUserEmail,
-  selectEmailVerified,
-  setUserLoginDetails,
-} from "../features/auth/UserSlice";
+import { useDispatch } from "react-redux";
+import { setUserLoginDetails } from "../features/auth/UserSlice";
 import { useCallback } from "react";
 
 const Login = () => {
   const formik = useFormik({
     initialValues: {
-      username: "",
+      email: "",
       password: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("username/email address is required"),
+      email: Yup.string()
+        .required("email address is required")
+        .email("invalid email address"),
       password: Yup.string().required("password is required"),
     }),
     onSubmit: (values, { resetForm }) => {
       console.log(values);
-      const { username, password } = values;
+      const { email, password } = values;
       auth
-        .signInWithEmailAndPassword(username, password)
+        .signInWithEmailAndPassword(email, password)
         .then((result) => {
           console.log("user", result.user);
           userDispatch(result.user);
@@ -37,8 +35,7 @@ const Login = () => {
         });
     },
   });
-  const userEmail = useSelector(selectUserEmail);
-  const isEmailVerified = useSelector(selectEmailVerified);
+
   const dispatch = useDispatch();
 
   const userDispatch = useCallback(
@@ -67,15 +64,6 @@ const Login = () => {
     [dispatch]
   );
 
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        console.log("uuser", user);
-        userDispatch(user);
-      }
-    });
-  }, [userEmail, isEmailVerified, userDispatch]);
-
   return (
     <Container>
       <LoginContainer>
@@ -84,13 +72,13 @@ const Login = () => {
           <Wrap>
             <label>UserName / Email address</label>
             <input
-              type="text"
-              name="username"
+              type="email"
+              name="email"
               placeholder="Enter username or email address"
-              {...formik.getFieldProps("username")}
+              {...formik.getFieldProps("email")}
             />
-            {formik.touched.username && formik.errors.username ? (
-              <p>{formik.errors.username}</p>
+            {formik.touched.email && formik.errors.email ? (
+              <p>{formik.errors.email}</p>
             ) : null}
           </Wrap>
 

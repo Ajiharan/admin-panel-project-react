@@ -1,5 +1,4 @@
 import "./App.css";
-import Login from "./components/Login";
 import { useSelector } from "react-redux";
 import {
   selectEmailVerified,
@@ -13,6 +12,7 @@ import {
 } from "react-router-dom";
 import NotVerify from "./components/NotVerify";
 import Home from "./components/Home";
+import LoadingScreen from "./components/loading/LoadingScreen";
 function App() {
   const emailVerified = useSelector(selectEmailVerified);
   const userName = useSelector(selectUserEmail);
@@ -22,7 +22,7 @@ function App() {
     if (!emailVerified && !userName) {
       routes = (
         <Switch>
-          <Route exact path="/" component={Login} />
+          <Route exact path="/" component={LoadingScreen} />
           <Redirect to="/" />
         </Switch>
       );
