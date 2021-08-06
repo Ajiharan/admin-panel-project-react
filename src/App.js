@@ -2,6 +2,7 @@ import "./App.css";
 import { useSelector } from "react-redux";
 import {
   selectEmailVerified,
+  selectUserLevel,
   selectUserEmail,
 } from "./features/auth/UserSlice";
 import {
@@ -17,6 +18,7 @@ import { Toaster } from "react-hot-toast";
 function App() {
   const emailVerified = useSelector(selectEmailVerified);
   const userName = useSelector(selectUserEmail);
+  const userLevel = useSelector(selectUserLevel);
 
   const checkUserLogin = () => {
     let routes;
@@ -34,13 +36,15 @@ function App() {
           <Redirect to="/notVerify" />
         </Switch>
       );
-    } else {
+    } else if (userLevel === 1) {
       routes = (
         <Switch>
+          {/* super admin path */}
           <Route exact path="/home" component={Home} />
           <Redirect to="/home" />
         </Switch>
       );
+    } else {
     }
     return routes;
   };

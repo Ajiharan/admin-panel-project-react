@@ -16,11 +16,11 @@ const LoadingScreen = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-  console.log("component rendered");
+
   useEffect(() => {
     console.log("called", loading);
     const unSubscribe = auth.onAuthStateChanged(async (user) => {
-      console.log("called in db", loading);
+      // console.log("called in db", loading);
       if (user) {
         // const { displayName, photoURL, emailVerified, email } = user;
 
@@ -34,9 +34,9 @@ const LoadingScreen = () => {
                 id: doc.id,
                 ...doc.data(),
               }));
-              console.log("called in db", loading);
+              // console.log("called in db", loading);
               if (arrData.length > 0) {
-                console.log("arrData", arrData);
+                // console.log("arrData", arrData);
                 setData({ ...user, userlevel: arrData[0].userlevel });
                 setLoading(false);
               } else {
