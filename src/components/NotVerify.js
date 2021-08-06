@@ -36,9 +36,11 @@ const NotVerify = () => {
       .sendEmailVerification()
       .then(() => {
         setMessage("email verified sucessfully");
+        setColor("white");
       })
       .catch((err) => {
         setMessage(err.message);
+        setColor("red");
       });
   }, []);
   return (
@@ -49,7 +51,11 @@ const NotVerify = () => {
         <p className="errorMsg" style={{ color: `${color}` }}>
           {message}
         </p>
-        <Button onclick={sendVerificationLink} buttonSize="primary">
+        <Button
+          onclick={sendVerificationLink}
+          buttonSize="primary"
+          disabled={loading}
+        >
           {loading ? "sending" : "Re-send verificaton email"}
         </Button>
       </Wrap>

@@ -6,6 +6,7 @@ const Button = ({
   buttonColor,
   buttonSize,
   children,
+  disabled,
 }) => {
   const SIZE = ["small", "primary", "large"];
   const STYLE = ["default", "outset", "inset"];
@@ -18,9 +19,10 @@ const Button = ({
   return (
     <ButtonContainer>
       <button
-        className={`${btnStyle} ${btnSize}`}
+        className={`${btnStyle} ${btnSize} ${!disabled ? " btn-enable" : ""}`}
         style={{ backgroundColor: `${btnColor}` }}
         onClick={onclick}
+        disabled={disabled}
       >
         {children}
       </button>
@@ -32,14 +34,17 @@ const ButtonContainer = styled.div`
   button {
     border: none;
     padding: 0.8rem;
-    cursor: pointer;
     color: white;
     border-radius: 10px;
     transition: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
 
-    &:hover {
+    &:hover:enabled {
       transform: scale(1.02);
     }
+  }
+
+  .btn-enable {
+    cursor: pointer;
   }
   .small {
     font-size: 0.6rem;
