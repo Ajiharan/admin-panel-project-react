@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "../Login";
 import { useDispatch, useSelector } from "react-redux";
-import { auth } from "../../Firebase";
+import { auth, db } from "../../Firebase";
 import {
   setUserLoginDetails,
   selectUserEmail,
@@ -16,26 +16,54 @@ const LoadingScreen = () => {
   const history = useHistory();
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
-
+  console.log("component rendered");
   useEffect(() => {
+    console.log("called", loading);
     const unSubscribe = auth.onAuthStateChanged(async (user) => {
+      console.log("called in db", loading);
       if (user) {
         // const { displayName, photoURL, emailVerified, email } = user;
-        setData(user);
 
-        setLoading(false);
+        if (loading) {
+          db.collection("admins")
+            .where("email", "==", user.email)
+            .where("userlevel", "==", 1)
+            .get()
+            .then((querySnapshot) => {
+              const arrData = querySnapshot.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+              }));
+              console.log("called in db", loading);
+              if (arrData.length > 0) {
+                console.log("arrData", arrData);
+                setData({ ...user, userlevel: arrData[0].userlevel });
+                setLoading(false);
+              } else {
+                auth
+                  .signOut()
+                  .then(() => {
+                    setLoading(false);
+                  })
+                  .catch((err) => {
+                    setLoading(false);
+                  });
+              }
+            });
+        }
       } else {
         setLoading(false);
       }
     });
     return () => {
+      console.log("called unSubscribed");
       unSubscribe();
     };
-  }, [dispatch]);
+  }, [dispatch, loading]);
 
   useEffect(() => {
     if (!!data) {
-      const { displayName, photoURL, emailVerified, email } = data;
+      const { displayName, photoURL, emailVerified, email, userlevel } = data;
       //   console.log("uuser", data);
       dispatch(
         setUserLoginDetails({
@@ -43,22 +71,22 @@ const LoadingScreen = () => {
           email: email,
           photo: photoURL,
           isEmailVerified: emailVerified,
+          userlevel: userlevel,
         })
       );
     }
-  }, [data]);
+  }, [data, dispatch]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
+    // console.log("loading", loading);
     if (!loading) {
-      console.log("rendered effect");
       if (!!userEmail && isEmailVerified) {
         history.push("/home");
       }
     }
-  }, [loading]);
+  }, [history, isEmailVerified, loading, userEmail]);
 
   const checkFunc = () => {
-    console.log("ui paint");
     return <Login />;
   };
 

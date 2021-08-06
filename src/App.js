@@ -13,6 +13,7 @@ import {
 import NotVerify from "./components/NotVerify";
 import Home from "./components/Home";
 import LoadingScreen from "./components/loading/LoadingScreen";
+import { Toaster } from "react-hot-toast";
 function App() {
   const emailVerified = useSelector(selectEmailVerified);
   const userName = useSelector(selectUserEmail);
@@ -45,7 +46,11 @@ function App() {
   };
   return (
     <div className="App">
-      <Router>{checkUserLogin()}</Router>
+      <Router>
+        {" "}
+        <Toaster />
+        {checkUserLogin()}
+      </Router>
     </div>
   );
 }

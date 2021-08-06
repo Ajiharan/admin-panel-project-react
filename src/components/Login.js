@@ -1,71 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { auth } from "../Firebase";
-import { useFormik } from "formik";
-import * as Yup from "yup";
-import { useDispatch } from "react-redux";
 import { setUserLoginDetails } from "../features/auth/UserSlice";
-import { useCallback } from "react";
-
+import LodingModal from "./common/LodingModal";
+import toast from "react-hot-toast";
+import useFormikHandler from "./useHooks/useFormikHandler";
 const Login = () => {
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .required("email address is required")
-        .email("invalid email address"),
-      password: Yup.string().required("password is required"),
-    }),
-    onSubmit: (values, { resetForm }) => {
-      console.log(values);
-      const { email, password } = values;
-      auth
-        .signInWithEmailAndPassword(email, password)
-        .then((result) => {
-          console.log("user", result.user);
-          userDispatch(result.user);
-        })
-        .catch((err) => {
-          console.log("error", err.message);
-          userDispatch(null, true);
-        });
-    },
-  });
+  const [loading, setLoading] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const userDispatch = useCallback(
-    (payload, isError = false) => {
-      if (isError) {
-        dispatch(
-          setUserLoginDetails({
-            name: null,
-            email: null,
-            photo: null,
-            isEmailVerified: null,
-          })
-        );
-      } else {
-        const { displayName, photoURL, emailVerified, email } = payload;
-        dispatch(
-          setUserLoginDetails({
-            name: displayName,
-            email: email,
-            photo: photoURL,
-            isEmailVerified: emailVerified,
-          })
-        );
-      }
-    },
-    [dispatch]
-  );
-
+  const formik = useFormikHandler(
+    setLoading,
+    toast,
+    auth,
+    setUserLoginDetails
+  ).formik;
   return (
     <Container>
+      {loading && <LodingModal show={loading} />}
       <LoginContainer>
         <Heading>Sign in</Heading>
         <Form onSubmit={formik.handleSubmit}>
@@ -114,6 +66,7 @@ const Container = styled.div`
   width: 100vw;
   height: 100vh;
   padding: 1rem;
+  position: relative;
 `;
 
 const LoginContainer = styled.div`
@@ -189,7 +142,7 @@ const Bottom = styled.div`
       height: 2rem;
       z-index: -1;
       left: 0;
-      transition: 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+      transition: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
       opacity: 1;
       position: absolute;
       background-color: #33bbff;
@@ -201,7 +154,7 @@ const Bottom = styled.div`
         font-weight: 600;
       }
       button:before {
-        width: 3rem;
+        width: 6rem;
       }
     }
   }
@@ -219,4 +172,4 @@ const Heading = styled.h2`
   align-items: center;
 `;
 
-export default Login;
+export default React.memo(Login);
