@@ -12,7 +12,7 @@ import {
   Redirect,
 } from "react-router-dom";
 import NotVerify from "./components/NotVerify";
-import Home from "./components/Home";
+import Home from "./components/super-admin/Home";
 import LoadingScreen from "./components/loading/LoadingScreen";
 import { Toaster } from "react-hot-toast";
 function App() {

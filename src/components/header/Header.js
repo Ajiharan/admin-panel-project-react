@@ -72,9 +72,13 @@ const Paths = styled.div`
   a {
     text-decoration: none;
     color: white;
-    font-size: 1.1rem;
+    font-size: 1rem;
     margin: 0 10px;
     text-transform: uppercase;
+    transition: all ease-in 250ms;
+    &:hover {
+      color: #d9d9d9;
+    }
   }
 `;
 export default Header;
