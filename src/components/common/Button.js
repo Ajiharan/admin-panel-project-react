@@ -47,8 +47,9 @@ const ButtonContainer = styled.div`
     cursor: pointer;
   }
   .small {
-    font-size: 0.6rem;
-    width: 120px;
+    padding: 0.5rem;
+    font-size: 0.65rem;
+    width: 100px;
   }
   .primary {
     font-size: 0.8rem;
