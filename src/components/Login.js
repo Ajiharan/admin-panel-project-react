@@ -22,11 +22,11 @@ const Login = () => {
         <Heading>Sign in</Heading>
         <Form onSubmit={formik.handleSubmit}>
           <Wrap>
-            <label>UserName / Email address</label>
+            <label>Email address</label>
             <input
               type="email"
               name="email"
-              placeholder="Enter username or email address"
+              placeholder="Enter email address"
               {...formik.getFieldProps("email")}
             />
             {formik.touched.email && formik.errors.email ? (

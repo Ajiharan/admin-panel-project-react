@@ -1,9 +1,12 @@
 import React from "react";
 import styled from "styled-components";
+import FormContainer from "./FormContainer";
 const BodyContainer = () => {
   return (
     <ContainerBody>
-      <div className="form-container"></div>
+      <div className="form-container">
+        <FormContainer />
+      </div>
       <div className="search"></div>
       <div className="userlist"></div>
       <div className="user-staus"></div>
@@ -14,10 +17,11 @@ const BodyContainer = () => {
 const ContainerBody = styled.div`
   display: grid;
   overflow-y: hidden;
-  background-color: #e6faff;
+  background-color: white;
   width: 100vw;
   min-height: calc(100vh - 60px);
   grid-template-rows: 0.1fr 1fr 0.6fr;
+  background-color: #f2f2f2;
   padding: 10px;
   grid-template-areas:
     "form form  search"
