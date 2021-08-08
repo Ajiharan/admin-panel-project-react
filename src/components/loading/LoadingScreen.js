@@ -20,10 +20,24 @@ const LoadingScreen = () => {
   useEffect(() => {
     console.log("called", loading);
     const unSubscribe = auth.onAuthStateChanged(async (user) => {
+      // console.log("user", user);
       // console.log("called in db", loading);
       if (user) {
         // const { displayName, photoURL, emailVerified, email } = user;
-
+        await auth.currentUser
+          .getIdTokenResult(true)
+          .then((idTokenResult) => {
+            // Confirm the user is an Admin.
+            if (!!idTokenResult.claims.admin) {
+              // Show admin UI.
+              console.log("idTokenResult true", idTokenResult);
+            } else {
+              console.log("idTokenResult", idTokenResult);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
         if (loading) {
           db.collection("admins")
             .where("email", "==", user.email)
@@ -40,15 +54,19 @@ const LoadingScreen = () => {
                 setData({ ...user, userlevel: arrData[0].userlevel });
                 setLoading(false);
               } else {
-                auth
-                  .signOut()
-                  .then(() => {
-                    setLoading(false);
-                  })
-                  .catch((err) => {
-                    setLoading(false);
-                  });
+                setData({ ...user, userlevel: 0 });
+                setLoading(false);
               }
+            })
+            .catch(() => {
+              auth
+                .signOut()
+                .then(() => {
+                  setLoading(false);
+                })
+                .catch((err) => {
+                  setLoading(false);
+                });
             });
         }
       } else {
@@ -63,7 +81,8 @@ const LoadingScreen = () => {
 
   useEffect(() => {
     if (!!data) {
-      const { displayName, photoURL, emailVerified, email, userlevel } = data;
+      const { displayName, photoURL, emailVerified, email, userlevel, uid } =
+        data;
       //   console.log("uuser", data);
       dispatch(
         setUserLoginDetails({
@@ -72,6 +91,7 @@ const LoadingScreen = () => {
           photo: photoURL,
           isEmailVerified: emailVerified,
           userlevel: userlevel,
+          uid: uid,
         })
       );
     }

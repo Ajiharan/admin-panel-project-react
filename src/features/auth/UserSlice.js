@@ -6,6 +6,7 @@ const initialState = {
   photo: null,
   isEmailVerified: false,
   userlevel: 0,
+  uid: null,
 };
 
 const userSlice = createSlice({
@@ -18,6 +19,7 @@ const userSlice = createSlice({
       state.photo = action.payload?.photo || null;
       state.isEmailVerified = action.payload.isEmailVerified;
       state.userlevel = action.payload.userlevel;
+      state.uid = action.payload.uid;
     },
     setSignOut: (state, action) => {
       state.name = null;
@@ -25,6 +27,7 @@ const userSlice = createSlice({
       state.photo = null;
       state.isEmailVerified = false;
       state.userlevel = 0;
+      state.uid = null;
     },
   },
 });
@@ -36,5 +39,5 @@ export const selectUserEmail = (state) => state.user.email;
 export const selectUserPhoto = (state) => state.user.photo;
 export const selectEmailVerified = (state) => state.user.isEmailVerified;
 export const selectUserLevel = (state) => state.user.userlevel;
-
+export const selectUid = (state) => state.user.uid;
 export default userSlice.reducer;

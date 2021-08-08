@@ -17,10 +17,11 @@ const useFormikHandler = (setLoading, toast, auth, setUserLoginDetails) => {
             photo: null,
             isEmailVerified: false,
             userlevel: userlevel,
+            uid: null,
           })
         );
       } else {
-        const { displayName, photoURL, emailVerified, email } = payload;
+        const { displayName, photoURL, emailVerified, email, uid } = payload;
         dispatch(
           setUserLoginDetails({
             name: displayName,
@@ -28,6 +29,7 @@ const useFormikHandler = (setLoading, toast, auth, setUserLoginDetails) => {
             photo: photoURL,
             isEmailVerified: emailVerified,
             userlevel: userlevel,
+            uid: uid,
           })
         );
       }
@@ -75,23 +77,26 @@ const useFormikHandler = (setLoading, toast, auth, setUserLoginDetails) => {
           ...doc.data(),
         }));
         if (arrData.length > 0) {
-          toast.success("login successfully");
-
+          toast.success("admin login successfully");
           userDispatch(user, false, resetForm, 1);
         } else {
-          auth
-            .signOut()
-            .then(() => {
-              toast.error("invalid login");
-
-              userDispatch(null, true, resetForm, 0);
-            })
-            .catch((err) => {
-              toast.error(err.message);
-
-              userDispatch(null, true, resetForm, 0);
-            });
+          toast.success("login successfully");
+          userDispatch(user, false, resetForm, 0);
         }
+      })
+      .catch((error) => {
+        auth
+          .signOut()
+          .then(() => {
+            toast.error("invalid login");
+
+            userDispatch(null, true, resetForm, 0);
+          })
+          .catch((err) => {
+            toast.error(err.message);
+
+            userDispatch(null, true, resetForm, 0);
+          });
       });
   };
   return { formik };

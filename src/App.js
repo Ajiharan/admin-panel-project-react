@@ -15,6 +15,7 @@ import NotVerify from "./components/NotVerify";
 import Home from "./components/super-admin/Home";
 import LoadingScreen from "./components/loading/LoadingScreen";
 import { Toaster } from "react-hot-toast";
+import AdminHome from "./components/admin/AdminHome";
 function App() {
   const emailVerified = useSelector(selectEmailVerified);
   const userName = useSelector(selectUserEmail);
@@ -45,6 +46,13 @@ function App() {
         </Switch>
       );
     } else {
+      routes = (
+        <Switch>
+          {/* super admin path */}
+          <Route exact path="/home" component={AdminHome} />
+          <Redirect to="/home" />
+        </Switch>
+      );
     }
     return routes;
   };
