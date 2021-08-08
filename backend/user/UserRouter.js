@@ -1,5 +1,7 @@
 import express from "express";
 import { admin } from "../FirebaseConfig.js";
+import dotenv from "dotenv";
+dotenv.config();
 const router = express.Router();
 
 router.post("/add", async (req, res) => {
@@ -31,7 +33,7 @@ router.post("/genToken", (req, res) => {
       .auth()
       .createCustomToken(uid, { email, userlevel })
       .then((token) => {
-        return res.status(200).json(token);
+        return res.header(process.env.SECREAT_KEY, token).json(token);
       })
       .catch((err) => {
         res.status(400).json(err.message);
