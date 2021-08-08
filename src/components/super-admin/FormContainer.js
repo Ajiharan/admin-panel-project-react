@@ -1,44 +1,50 @@
 import React from "react";
 import styled from "styled-components";
+import LodingModal from "../common/LodingModal";
 import useFormValidator from "../useHooks/useFormValidator";
 
 const FormContainer = () => {
   const { Formik, loading } = useFormValidator();
   const formik = Formik;
   return (
-    <Form onSubmit={formik.handleSubmit}>
-      <Wrap>
-        <label> Email address</label>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter  email address"
-          {...formik.getFieldProps("email")}
-        />
-        {formik.touched.email && formik.errors.email ? (
-          <p>{formik.errors.email}</p>
-        ) : null}
-      </Wrap>
+    <React.Fragment>
+      {loading && (
+        <LodingModal show={loading} message="verifying user details.." />
+      )}
+      <Form onSubmit={formik.handleSubmit}>
+        <Wrap>
+          <label> Email address</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter  email address"
+            {...formik.getFieldProps("email")}
+          />
+          {formik.touched.email && formik.errors.email ? (
+            <p>{formik.errors.email}</p>
+          ) : null}
+        </Wrap>
 
-      <Wrap>
-        <label>Password</label>
-        <input
-          {...formik.getFieldProps("password")}
-          name="password"
-          type="password"
-          placeholder="**********"
-          autoComplete="new-password"
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <p>{formik.errors.password}</p>
-        ) : null}
-      </Wrap>
-      <Bottom>
-        <div className="button-design">
-          <button type="submit">Register User</button>
-        </div>
-      </Bottom>
-    </Form>
+        <Wrap>
+          <label>Password</label>
+          <input
+            {...formik.getFieldProps("password")}
+            name="password"
+            type="password"
+            placeholder="**********"
+            autoComplete="new-password"
+          />
+          {formik.touched.password && formik.errors.password ? (
+            <p>{formik.errors.password}</p>
+          ) : null}
+        </Wrap>
+        <Bottom>
+          <div className="button-design">
+            <button type="submit">Register User</button>
+          </div>
+        </Bottom>
+      </Form>
+    </React.Fragment>
   );
 };
 

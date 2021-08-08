@@ -24,20 +24,24 @@ const useFormValidator = () => {
   });
 
   const addUser = (values, func) => {
-    axios
-      .post("/user/add", values, {
-        headers: {
-          adminToken: JSON.parse(localStorage.getItem("auth_admin")),
-        },
-      })
-      .then((res) => {
-        func();
-        toast.success("user sucessfully added");
-      })
-      .catch((err) => {
-        func();
-        toast.error(err.response.data);
-      });
+    setTimeout(() => {
+      axios
+        .post("/user/add", values, {
+          headers: {
+            adminToken: JSON.parse(localStorage.getItem("auth_admin")),
+          },
+        })
+        .then((res) => {
+          setLoading(false);
+          func();
+          toast.success("user sucessfully added");
+        })
+        .catch((err) => {
+          setLoading(false);
+          func();
+          toast.error(err.response.data);
+        });
+    }, 2000);
   };
 
   return { Formik, loading };
