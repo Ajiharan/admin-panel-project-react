@@ -1,8 +1,11 @@
+import axios from "../../Axios";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { auth } from "../../Firebase";
+import { useState } from "react";
+import toast from "react-hot-toast";
 const useFormValidator = () => {
-  const formik = useFormik({
+  const [loading, setLoading] = useState(false);
+  const Formik = useFormik({
     initialValues: {
       email: "",
       password: "",
@@ -14,11 +17,30 @@ const useFormValidator = () => {
       password: Yup.string().required("password is required"),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log("values", values);
+      setLoading(true);
+
+      addUser(values, resetForm);
     },
   });
 
-  return { formik };
+  const addUser = (values, func) => {
+    axios
+      .post("/user/add", values, {
+        headers: {
+          adminToken: JSON.parse(localStorage.getItem("auth_admin")),
+        },
+      })
+      .then((res) => {
+        func();
+        toast.success("user sucessfully added");
+      })
+      .catch((err) => {
+        func();
+        toast.error(err.response.data);
+      });
+  };
+
+  return { Formik, loading };
 };
 
 export default useFormValidator;

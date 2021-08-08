@@ -1,27 +1,37 @@
 import express from "express";
 import { admin } from "../FirebaseConfig.js";
 import dotenv from "dotenv";
-import { verifyAdmin } from "../extra/Extra.js";
+import jwt from "jsonwebtoken";
+import { verifyAdmin, tokenValidator } from "../extra/Extra.js";
 dotenv.config();
 const router = express.Router();
 
-router.post("/add", async (req, res) => {
-  try {
-    admin
+router.post(
+  "/add",
+  async (req, res, next) => {
+    if (await tokenValidator(req.header(process.env.SECREAT_KEY))) {
+      next();
+    } else {
+      res.status(403).json("Sorry your Token is expired!");
+    }
+  },
+  async (req, res) => {
+    await admin
       .auth()
       .createUser({
         email: req.body.email,
         password: req.body.password,
       })
       .then((r) => {
-        console.log("r", r);
+        // console.log("r", r);
         return res.status(200).json(r);
       })
       .catch((err) => {
-        return res.status(400).json(err);
+        // console.log("err", err.message);
+        return res.status(400).json(err.message);
       });
-  } catch (err) {}
-});
+  }
+);
 
 router.post("/genToken", async (req, res) => {
   try {
@@ -30,15 +40,16 @@ router.post("/genToken", async (req, res) => {
     const uid = req.body.uid;
 
     if (await verifyAdmin(uid)) {
-      admin
-        .auth()
-        .createCustomToken(uid, { email, userlevel })
-        .then((token) => {
-          return res.header(process.env.SECREAT_KEY, token).json(token);
-        })
-        .catch((err) => {
-          res.status(400).json(err.message);
-        });
+      const adminToken = await jwt.sign(
+        {
+          uid,
+          userlevel,
+          email,
+        },
+        process.env.SECREAT_KEY,
+        { expiresIn: 60 * 40 }
+      );
+      res.status(200).json(adminToken);
     } else {
       res.status(403).json("Unauthorized access");
     }

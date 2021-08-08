@@ -3,7 +3,8 @@ import styled from "styled-components";
 import useFormValidator from "../useHooks/useFormValidator";
 
 const FormContainer = () => {
-  const formik = useFormValidator().formik;
+  const { Formik, loading } = useFormValidator();
+  const formik = Formik;
   return (
     <Form onSubmit={formik.handleSubmit}>
       <Wrap>
