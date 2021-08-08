@@ -1,6 +1,7 @@
 import express from "express";
 import { admin } from "../FirebaseConfig.js";
 import dotenv from "dotenv";
+import { verifyAdmin } from "../extra/Extra.js";
 dotenv.config();
 const router = express.Router();
 
@@ -22,22 +23,25 @@ router.post("/add", async (req, res) => {
   } catch (err) {}
 });
 
-router.post("/genToken", (req, res) => {
+router.post("/genToken", async (req, res) => {
   try {
     const email = req.body.email;
     const userlevel = req.body.userlevel;
     const uid = req.body.uid;
 
-    console.log(email, userlevel);
-    admin
-      .auth()
-      .createCustomToken(uid, { email, userlevel })
-      .then((token) => {
-        return res.header(process.env.SECREAT_KEY, token).json(token);
-      })
-      .catch((err) => {
-        res.status(400).json(err.message);
-      });
+    if (await verifyAdmin(uid)) {
+      admin
+        .auth()
+        .createCustomToken(uid, { email, userlevel })
+        .then((token) => {
+          return res.header(process.env.SECREAT_KEY, token).json(token);
+        })
+        .catch((err) => {
+          res.status(400).json(err.message);
+        });
+    } else {
+      res.status(403).json("Unauthorized access");
+    }
   } catch (err) {}
 });
 
@@ -47,10 +51,7 @@ router.get("/get", (req, res) => {
     .getUserByEmail("baskaranajiharan1243@gmail.com")
     .then((user) => {
       console.log(user);
-      // Confirm user is verified.
       if (user.emailVerified) {
-        // Add custom claims for additional privileges.
-        // This will be picked up by the user on token refresh or next sign in on new device.
         return admin.auth().setCustomUserClaims(user.uid, {
           admin: true,
         });

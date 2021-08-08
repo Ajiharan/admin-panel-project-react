@@ -18,6 +18,7 @@ const Home = () => {
       .post("user/genToken", { email, userlevel, uid })
       .then((res) => {
         console.log("token", res.data);
+        localStorage.setItem("auth_admin", JSON.stringify(res.data));
       })
       .catch((err) => {
         console.log("error", err);
