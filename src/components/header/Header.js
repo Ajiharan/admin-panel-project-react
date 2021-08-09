@@ -1,32 +1,11 @@
 import React from "react";
-import { auth } from "../../Firebase";
-import { useDispatch } from "react-redux";
-import { setSignOut } from "../../features/auth/UserSlice";
-import { Link, useHistory } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../common/Button";
+import useSignOut from "../useHooks/useSignOut";
 
 const Header = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
-  const logout = () => {
-    auth
-      .signOut()
-      .then(() => {
-        dispatch(
-          setSignOut({
-            name: null,
-            email: null,
-            photo: null,
-            isEmailVerified: null,
-          })
-        );
-        history.push("/");
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
   return (
     <Navbar>
       <Link to="/" className="app-logo">
@@ -38,7 +17,11 @@ const Header = () => {
         <Link to="/">Trash</Link>
       </Paths>
       <div className="button-container">
-        <Button onclick={logout} buttonSize="small" buttonColor="#ff6666">
+        <Button
+          onclick={useSignOut().logout}
+          buttonSize="small"
+          buttonColor="#ff6666"
+        >
           Logout
         </Button>
       </div>

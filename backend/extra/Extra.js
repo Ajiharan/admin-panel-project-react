@@ -18,7 +18,8 @@ export const verifyAdmin = async (uid) => {
 };
 export const tokenValidator = async (token) => {
   try {
-    const data = jwt.verify(token, process.env.SECREAT_KEY);
+    const data = await jwt.verify(token, process.env.SECREAT_KEY);
+    console.log(data);
     return data ? true : false;
   } catch (err) {
     return false;

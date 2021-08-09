@@ -8,22 +8,26 @@ import {
   selectUserLevel,
   selectUid,
 } from "../../features/auth/UserSlice";
+import useSignOut from "../useHooks/useSignOut";
 const Home = () => {
   const email = useSelector(selectUserEmail);
   const userlevel = useSelector(selectUserLevel);
   const uid = useSelector(selectUid);
-
+  const { signout } = useSignOut();
   useEffect(() => {
-    axios
-      .post("user/genToken", { email, userlevel, uid })
-      .then((res) => {
-        console.log("token", res.data);
-        localStorage.setItem("auth_admin", JSON.stringify(res.data));
-      })
-      .catch((err) => {
-        console.log("error", err);
-      });
-  }, [email, userlevel, uid]);
+    if (!localStorage.getItem("auth_admin")) {
+      axios
+        .post("user/genToken", { email, userlevel, uid })
+        .then((res) => {
+          console.log("token", res.data);
+          localStorage.setItem("auth_admin", JSON.stringify(res.data));
+        })
+        .catch((err) => {
+          console.log("error", err);
+          signout();
+        });
+    }
+  }, [email, userlevel, uid, signout]);
 
   return (
     <div>

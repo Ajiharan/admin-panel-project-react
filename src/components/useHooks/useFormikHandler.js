@@ -89,12 +89,11 @@ const useFormikHandler = (setLoading, toast, auth, setUserLoginDetails) => {
           .signOut()
           .then(() => {
             toast.error("invalid login");
-
+            localStorage.removeItem("auth_admin");
             userDispatch(null, true, resetForm, 0);
           })
           .catch((err) => {
             toast.error(err.message);
-
             userDispatch(null, true, resetForm, 0);
           });
       });

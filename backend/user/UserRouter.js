@@ -47,11 +47,11 @@ router.post("/genToken", async (req, res) => {
           email,
         },
         process.env.SECREAT_KEY,
-        { expiresIn: 60 * 40 }
+        { expiresIn: 60 * 30 }
       );
       res.status(200).json(adminToken);
     } else {
-      res.status(403).json("Unauthorized access");
+      res.status(401).json("Unauthorized access");
     }
   } catch (err) {}
 });
@@ -59,7 +59,7 @@ router.post("/genToken", async (req, res) => {
 router.get("/get", (req, res) => {
   admin
     .auth()
-    .getUserByEmail("baskaranajiharan1243@gmail.com")
+    .getUserByEmail(process.env.admin_email)
     .then((user) => {
       console.log(user);
       if (user.emailVerified) {
