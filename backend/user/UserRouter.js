@@ -6,6 +6,43 @@ import { verifyAdmin, tokenValidator } from "../extra/Extra.js";
 dotenv.config();
 const router = express.Router();
 
+router.get(
+  "/getAll",
+  async (req, res, next) => {
+    if (await tokenValidator(req.header(process.env.SECREAT_KEY))) {
+      next();
+    } else {
+      res.status(403).json("Sorry your Token is expired!");
+    }
+  },
+  async (req, res) => {
+    try {
+      const usersResult = await admin.auth().listUsers(1000);
+      const users = usersResult.users
+        .map(
+          ({
+            uid,
+            emailVerified,
+            email,
+            photoURL,
+            displayName,
+            customClaims,
+          }) => ({
+            uid,
+            emailVerified,
+            email,
+            photoURL,
+            displayName,
+            customClaims,
+          })
+        )
+        .filter((r) => !r.customClaims);
+      res.status(200).json(users);
+    } catch (err) {
+      res.status(400).json(err);
+    }
+  }
+);
 router.post(
   "/add",
   async (req, res, next) => {
@@ -22,9 +59,30 @@ router.post(
         email: req.body.email,
         password: req.body.password,
       })
-      .then((r) => {
+      .then(async (r) => {
         // console.log("r", r);
-        return res.status(200).json(r);
+        await admin
+          .firestore()
+          .collection("users")
+          .add({
+            uid: r.uid,
+            email: r.email,
+            userlevel: 0,
+          })
+          .then((result) => {
+            return res.status(200).json(r);
+          })
+          .catch(async (err) => {
+            await admin
+              .auth()
+              .deleteUser(r.uid)
+              .then((_) => {
+                return res.status(400).json(err.message);
+              })
+              .catch((er) => {
+                return res.status(400).json(er.message);
+              });
+          });
       })
       .catch((err) => {
         // console.log("err", err.message);
