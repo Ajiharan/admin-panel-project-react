@@ -13,6 +13,18 @@ const FormContainer = () => {
       )}
       <Form onSubmit={formik.handleSubmit}>
         <Wrap>
+          <label> Username</label>
+          <input
+            type="text"
+            name="username"
+            placeholder="Enter Username"
+            {...formik.getFieldProps("username")}
+          />
+          {formik.touched.username && formik.errors.username ? (
+            <p>{formik.errors.username}</p>
+          ) : null}
+        </Wrap>
+        <Wrap>
           <label> Email address</label>
           <input
             type="email"
@@ -51,11 +63,15 @@ const FormContainer = () => {
 const Form = styled.form`
   padding: 1rem 2rem;
   width: 400px;
+  min-height: 30rem;
   display: flex;
-  background-color: #193367;
+  border: 1px solid lightgray;
+  border-top: 5px solid coral;
+  background-color: lightgray;
+  box-shadow: 1px 2px 2px lightgray;
   flex-direction: column;
   justify-content: flex-start;
-  border-radius: 15px;
+  border-radius: 5px;
 `;
 const Wrap = styled.div`
   display: flex;
@@ -69,7 +85,7 @@ const Wrap = styled.div`
   }
   label {
     font-size: 1.2rem;
-    color: white;
+    color: black;
   }
   input {
     border-left: 4px solid lightblue;

@@ -3,18 +3,19 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { useHistory } from "react-router";
 import useSignOut from "./useSignOut";
 const useFormValidator = () => {
   const [loading, setLoading] = useState(false);
   const { logout } = useSignOut();
-  const history = useHistory();
+
   const Formik = useFormik({
     initialValues: {
+      username: "",
       email: "",
       password: "",
     },
     validationSchema: Yup.object({
+      username: Yup.string().required("Username is required"),
       email: Yup.string()
         .required("email address is required")
         .email("invalid email address"),
