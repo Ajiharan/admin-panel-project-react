@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 import useSignOut from "./useSignOut";
 import { useDispatch } from "react-redux";
 import { getAllUsers } from "../../features/auth/userAction";
+
 const useFormValidator = () => {
   const [loading, setLoading] = useState(false);
   const { logout } = useSignOut();

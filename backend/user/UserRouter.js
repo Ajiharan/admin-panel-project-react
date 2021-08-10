@@ -18,6 +18,7 @@ router.get(
   async (req, res) => {
     try {
       const usersResult = await admin.auth().listUsers(1000);
+      console.log(usersResult);
       const users = usersResult.users
         .map(
           ({
@@ -61,9 +62,11 @@ router.post(
         email: req.body.email,
         password: req.body.password,
         displayName: req.body.username,
+        photoURL:
+          "https://firebasestorage.googleapis.com/v0/b/admin-panel-demo-8265f.appspot.com/o/icons8-user-48.png?alt=media&token=a7e0c726-6a3b-4159-8cc2-ba2e799872f5",
       })
       .then(async (r) => {
-        // console.log("r", r);
+        console.log("r", r);
         await admin
           .firestore()
           .collection("users")
@@ -71,6 +74,10 @@ router.post(
             uid: r.uid,
             email: r.email,
             userlevel: 0,
+            photoUrl:
+              "https://firebasestorage.googleapis.com/v0/b/admin-panel-demo-8265f.appspot.com/o/icons8-user-48.png?alt=media&token=a7e0c726-6a3b-4159-8cc2-ba2e799872f5",
+            createdAt: r.metadata.creationTime,
+            displayName: r.displayName,
           })
           .then((result) => {
             return res.status(200).json(r);
@@ -108,7 +115,7 @@ router.post("/genToken", async (req, res) => {
           email,
         },
         process.env.SECREAT_KEY,
-        { expiresIn: 60 * 5 }
+        { expiresIn: 60 * 20 }
       );
       res.status(200).json(adminToken);
     } else {

@@ -18,11 +18,12 @@ const BodyContainer = () => {
 
 const ContainerBody = styled.div`
   display: grid;
-  overflow-y: hidden;
+  overflow-x: hidden;
   background-color: white;
   width: 100vw;
   min-height: calc(100vh - 60px);
   grid-template-rows: 0.1fr 1fr 0.6fr;
+  grid-template-columns: 30vw 35vw 35vw;
   background-color: #f2f2f2;
   padding: 10px;
   grid-template-areas:

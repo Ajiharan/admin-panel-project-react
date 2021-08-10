@@ -62,6 +62,7 @@ const FormContainer = () => {
 
 const Form = styled.form`
   padding: 1rem 2rem;
+  margin-bottom: 50px;
   width: 400px;
   min-height: 30rem;
   display: flex;
