@@ -1,33 +1,63 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Header from "../header/Header";
 import BodyContainer from "./BodyContainer";
 import axios from "../../Axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectUserEmail,
   selectUserLevel,
   selectUid,
 } from "../../features/auth/UserSlice";
+import {
+  selectError,
+  selectLoading,
+  selectuserslist,
+} from "../../features/auth/userListSlice";
 import useSignOut from "../useHooks/useSignOut";
+
+import { getAllUsers } from "../../features/auth/userAction";
 const Home = () => {
   const email = useSelector(selectUserEmail);
   const userlevel = useSelector(selectUserLevel);
   const uid = useSelector(selectUid);
-  const { signout } = useSignOut();
+
+  const userList = useSelector(selectuserslist);
+  const userListError = useSelector(selectError);
+
+  const { logout } = useSignOut();
+  const [storage, setStorage] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     if (!localStorage.getItem("auth_admin")) {
       axios
         .post("user/genToken", { email, userlevel, uid })
         .then((res) => {
-          console.log("token", res.data);
           localStorage.setItem("auth_admin", JSON.stringify(res.data));
+          setStorage(JSON.stringify(res.data));
+          console.log("token", res.data);
         })
         .catch((err) => {
           console.log("error", err);
-          signout();
+          logout();
         });
     }
-  }, [email, userlevel, uid, signout]);
+  }, [email, userlevel, uid, logout]);
+
+  useEffect(() => {
+    if (localStorage.getItem("auth_admin")) {
+      dispatch(getAllUsers());
+    }
+  }, [storage]);
+
+  useEffect(() => {
+    if (userListError !== "") {
+      if (userListError?.status === 403) {
+        console.log("userListError", userListError);
+        logout();
+      }
+    }
+  }, [userList, userListError]);
 
   return (
     <div>

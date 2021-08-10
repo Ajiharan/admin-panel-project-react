@@ -27,6 +27,7 @@ router.get(
             photoURL,
             displayName,
             customClaims,
+            passwordHash,
           }) => ({
             uid,
             emailVerified,
@@ -34,6 +35,7 @@ router.get(
             photoURL,
             displayName,
             customClaims,
+            passwordHash,
           })
         )
         .filter((r) => !r.customClaims);
@@ -58,6 +60,7 @@ router.post(
       .createUser({
         email: req.body.email,
         password: req.body.password,
+        displayName: req.body.username,
       })
       .then(async (r) => {
         // console.log("r", r);
@@ -105,7 +108,7 @@ router.post("/genToken", async (req, res) => {
           email,
         },
         process.env.SECREAT_KEY,
-        { expiresIn: 60 * 30 }
+        { expiresIn: 60 * 5 }
       );
       res.status(200).json(adminToken);
     } else {

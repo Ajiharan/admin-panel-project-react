@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
 import FormContainer from "./FormContainer";
+import UserListContainer from "./UserListContainer";
 const BodyContainer = () => {
   return (
     <ContainerBody>
       <div className="form-container">
         <FormContainer />
+        <UserListContainer />
       </div>
       <div className="search"></div>
       <div className="userlist"></div>
@@ -32,6 +34,7 @@ const ContainerBody = styled.div`
     border: 1px solid red;
     grid-area: form;
     padding: 5px;
+    display: flex;
   }
 
   .search {

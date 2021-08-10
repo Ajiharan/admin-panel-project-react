@@ -2,6 +2,7 @@ import { auth } from "../../Firebase";
 import { useDispatch } from "react-redux";
 import { setSignOut } from "../../features/auth/UserSlice";
 import { useHistory } from "react-router-dom";
+import { setUserListDefault } from "../../features/auth/userListSlice";
 
 const useSignOut = () => {
   const history = useHistory();
@@ -17,8 +18,10 @@ const useSignOut = () => {
             email: null,
             photo: null,
             isEmailVerified: null,
+            uid: null,
           })
         );
+        dispatch(setUserListDefault());
         history.push("/");
       })
       .catch((err) => {

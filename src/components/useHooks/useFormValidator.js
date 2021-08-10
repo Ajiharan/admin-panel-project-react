@@ -4,9 +4,12 @@ import * as Yup from "yup";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import useSignOut from "./useSignOut";
+import { useDispatch } from "react-redux";
+import { getAllUsers } from "../../features/auth/userAction";
 const useFormValidator = () => {
   const [loading, setLoading] = useState(false);
   const { logout } = useSignOut();
+  const dispatch = useDispatch();
 
   const Formik = useFormik({
     initialValues: {
@@ -38,6 +41,7 @@ const useFormValidator = () => {
         })
         .then((res) => {
           setLoading(false);
+          dispatch(getAllUsers());
           func();
           toast.success("user sucessfully added");
         })

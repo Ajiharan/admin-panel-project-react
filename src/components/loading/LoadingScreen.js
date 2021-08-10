@@ -24,20 +24,20 @@ const LoadingScreen = () => {
       // console.log("called in db", loading);
       if (user) {
         // const { displayName, photoURL, emailVerified, email } = user;
-        await auth.currentUser
-          .getIdTokenResult(true)
-          .then((idTokenResult) => {
-            // Confirm the user is an Admin.
-            if (!!idTokenResult.claims.admin) {
-              // Show admin UI.
-              console.log("idTokenResult true", idTokenResult);
-            } else {
-              console.log("idTokenResult", idTokenResult);
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+        // await auth.currentUser
+        //   .getIdTokenResult(true)
+        //   .then((idTokenResult) => {
+        //     // Confirm the user is an Admin.
+        //     if (!!idTokenResult.claims.admin) {
+        //       // Show admin UI.
+        //       console.log("idTokenResult true", idTokenResult);
+        //     } else {
+        //       console.log("idTokenResult", idTokenResult);
+        //     }
+        //   })
+        //   .catch((error) => {
+        //     console.log(error);
+        //   });
         if (loading) {
           db.collection("admins")
             .where("email", "==", user.email)
