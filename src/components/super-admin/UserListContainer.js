@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectuserslist,
   selectLoading,
 } from "../../features/auth/userListSlice";
 import Button from "../../components/common/Button";
+import axios from "../../Axios";
+
+import { getAllUsers } from "../../features/auth/userAction";
+import { toast } from "react-hot-toast";
+import { setLoadingDefault } from "../../features/auth/userListSlice";
 const UserListContainer = () => {
   const [userData, setUserData] = useState([]);
   const userList = useSelector(selectuserslist);
   const userListLoading = useSelector(selectLoading);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (userList.length > 0) {
@@ -17,9 +23,30 @@ const UserListContainer = () => {
     }
   }, [userList]);
 
+  const deactivateAccount = (uid, isDisable) => {
+    console.log(uid);
+    dispatch(setLoadingDefault());
+    axios
+      .post(
+        "user/disable",
+        { uid, isDisable },
+        {
+          headers: {
+            adminToken: JSON.parse(localStorage.getItem("auth_admin")),
+          },
+        }
+      )
+      .then((res) => {
+        dispatch(getAllUsers());
+      })
+      .catch((err) => {
+        toast.error(err.response.data);
+      });
+  };
+
   return (
     <Container>
-      {userListLoading && "loading"}
+      <h4 className="mt-4">{userListLoading ? "loading" : "user lists"}</h4>
       {userData.map((res) => (
         <Wrap key={res.uid}>
           <img src={res.photoURL} alt="" />
@@ -29,7 +56,14 @@ const UserListContainer = () => {
             <p>{res.uid}</p>
           </div>
           <div className="inner-button">
-            <Button children="Deactivate Account" buttonColor="coral" />
+            <Button
+              children={`${res.disabled ? "Activate" : "Deactivate"}`}
+              buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
+              disabled={userListLoading}
+              onclick={() => {
+                deactivateAccount(res.uid, !res.disabled);
+              }}
+            />
           </div>
         </Wrap>
       ))}
@@ -45,6 +79,11 @@ const Container = styled.div`
   flex: 1 1;
   margin-left: 1rem;
   padding: 0.5rem;
+  .mt-4 {
+    margin: 10px 0;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
 `;
 
 const Wrap = styled.div`
@@ -68,6 +107,9 @@ const Wrap = styled.div`
   }
   .inner {
     flex: 1 1;
+    p {
+      letter-spacing: 0.8px;
+    }
   }
   .inner-button {
   }

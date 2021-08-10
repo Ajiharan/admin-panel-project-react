@@ -6,6 +6,31 @@ import { verifyAdmin, tokenValidator } from "../extra/Extra.js";
 dotenv.config();
 const router = express.Router();
 
+router.post(
+  "/disable",
+  async (req, res, next) => {
+    if (await tokenValidator(req.header(process.env.SECREAT_KEY))) {
+      next();
+    } else {
+      res.status(403).json("Sorry your Token is expired!");
+    }
+  },
+  async (req, res) => {
+    const uid = req.body.uid;
+    const isDisable = req.body.isDisable;
+    await admin
+      .auth()
+      .updateUser(uid, {
+        disabled: isDisable,
+      })
+      .then((result) => {
+        return res.status(200).json(result);
+      })
+      .catch((err) => {
+        return res.status(400).json(err.message);
+      });
+  }
+);
 router.get(
   "/getAll",
   async (req, res, next) => {
@@ -18,7 +43,7 @@ router.get(
   async (req, res) => {
     try {
       const usersResult = await admin.auth().listUsers(1000);
-      console.log(usersResult);
+      // console.log(usersResult);
       const users = usersResult.users
         .map(
           ({
@@ -28,7 +53,8 @@ router.get(
             photoURL,
             displayName,
             customClaims,
-            passwordHash,
+
+            disabled,
           }) => ({
             uid,
             emailVerified,
@@ -36,7 +62,8 @@ router.get(
             photoURL,
             displayName,
             customClaims,
-            passwordHash,
+
+            disabled,
           })
         )
         .filter((r) => !r.customClaims);
@@ -64,6 +91,7 @@ router.post(
         displayName: req.body.username,
         photoURL:
           "https://firebasestorage.googleapis.com/v0/b/admin-panel-demo-8265f.appspot.com/o/icons8-user-48.png?alt=media&token=a7e0c726-6a3b-4159-8cc2-ba2e799872f5",
+        disabled: true,
       })
       .then(async (r) => {
         console.log("r", r);

@@ -52,7 +52,7 @@ const FormContainer = () => {
         </Wrap>
         <Bottom>
           <div className="button-design">
-            <button type="submit">Register User</button>
+            <button type="submit">Create User</button>
           </div>
         </Bottom>
       </Form>

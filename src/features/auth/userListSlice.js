@@ -30,6 +30,11 @@ const userListSlice = createSlice({
       state.loading = false;
       state.error = "";
     },
+    setLoadingDefault: (state) => {
+      state.userslist = [];
+      state.loading = true;
+      state.error = "";
+    },
   },
 });
 
@@ -38,6 +43,7 @@ export const {
   getUserListRequest,
   setUserListDefault,
   getUserListSucess,
+  setLoadingDefault,
 } = userListSlice.actions;
 
 export const selectuserslist = (state) => state.userList.userslist;
