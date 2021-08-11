@@ -31,7 +31,9 @@ const Login = () => {
             />
             {formik.touched.email && formik.errors.email ? (
               <p>{formik.errors.email}</p>
-            ) : null}
+            ) : (
+              <p style={{ opacity: 0 }}>{"null"}</p>
+            )}
           </Wrap>
 
           <Wrap>
@@ -45,7 +47,9 @@ const Login = () => {
             />
             {formik.touched.password && formik.errors.password ? (
               <p>{formik.errors.password}</p>
-            ) : null}
+            ) : (
+              <p style={{ opacity: 0 }}>{"null"}</p>
+            )}
           </Wrap>
           <Bottom>
             <div className="button-design">
@@ -74,25 +78,30 @@ const LoginContainer = styled.div`
   border-top: 4px solid #1ad1ff;
   flex-direction: column;
   align-items: center;
-  width: 50vw;
+  width: 32vw;
   border-radius: 5px;
-  height: 70vh;
+  min-height: 30vh;
   background-color: #f7f7f7;
   box-shadow: rgb(0 0 0 / 20%) 1px 2px 12px 1px;
+  @media only screen and (max-width: 960px) {
+    width: 50vw;
+  }
   @media only screen and (max-width: 760px) {
     width: 70vw;
-    height: 75vh;
+  }
+  @media only screen and (max-width: 400px) {
+    width: 90vw;
   }
 `;
 const Form = styled.form`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  width: 18rem;
+  width: 90%;
   padding: 1rem 0.2rem;
   margin: 1rem 0.5rem;
   @media only screen and (max-width: 760px) {
-    width: 16rem;
+    /* width: 16rem; */
     padding: 0.8rem 0.1rem;
   }
 `;
@@ -137,6 +146,7 @@ const Wrap = styled.div`
       padding: 0.5rem;
       width: 90%;
       margin-top: 8px;
+      font-size: 0.7rem;
     }
   }
 `;
@@ -150,7 +160,6 @@ const Bottom = styled.div`
     text-transform: uppercase;
     color: white;
     width: 7rem;
-
     height: 2rem;
     padding: 0.5rem 0.5rem;
     border: none;
@@ -173,6 +182,11 @@ const Bottom = styled.div`
       position: absolute;
       background-color: #33bbff;
     }
+    @media only screen and (max-width: 760px) {
+      height: 1.6rem;
+      width: 5rem;
+      font-size: 0.6rem;
+    }
   }
   .button-design {
     &:hover {
@@ -187,6 +201,9 @@ const Bottom = styled.div`
   a {
     text-decoration: none;
     color: #3f3f40;
+    @media only screen and (max-width: 760px) {
+      font-size: 0.8rem;
+    }
   }
 `;
 const Heading = styled.h2`
@@ -196,6 +213,10 @@ const Heading = styled.h2`
   justify-content: center;
   margin: 1rem 0;
   align-items: center;
+  @media only screen and (max-width: 760px) {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+  }
 `;
 
 export default React.memo(Login);
