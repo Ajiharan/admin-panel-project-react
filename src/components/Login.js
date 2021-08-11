@@ -76,9 +76,13 @@ const LoginContainer = styled.div`
   align-items: center;
   width: 50vw;
   border-radius: 5px;
-  height: 60vh;
+  height: 70vh;
   background-color: #f7f7f7;
   box-shadow: rgb(0 0 0 / 20%) 1px 2px 12px 1px;
+  @media only screen and (max-width: 760px) {
+    width: 70vw;
+    height: 75vh;
+  }
 `;
 const Form = styled.form`
   display: flex;
@@ -87,6 +91,10 @@ const Form = styled.form`
   width: 18rem;
   padding: 1rem 0.2rem;
   margin: 1rem 0.5rem;
+  @media only screen and (max-width: 760px) {
+    width: 16rem;
+    padding: 0.8rem 0.1rem;
+  }
 `;
 
 const Wrap = styled.div`
@@ -108,9 +116,27 @@ const Wrap = styled.div`
     letter-spacing: 1.3px;
     border-radius: 4px;
     padding: 0.7rem;
+    width: 90%;
     margin-top: 10px;
     &:focus {
       outline: 0;
+    }
+  }
+  @media only screen and (max-width: 760px) {
+    p {
+      font-weight: 500;
+      font-size: 0.8rem;
+    }
+    label {
+      font-size: 0.9rem;
+    }
+    input {
+      border-left: 4px solid lightblue;
+      letter-spacing: 1.1px;
+      border-radius: 4px;
+      padding: 0.5rem;
+      width: 90%;
+      margin-top: 8px;
     }
   }
 `;
