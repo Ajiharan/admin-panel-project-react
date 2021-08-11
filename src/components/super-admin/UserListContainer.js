@@ -24,7 +24,7 @@ const UserListContainer = () => {
   }, [userList]);
 
   const deactivateAccount = (uid, isDisable) => {
-    console.log(uid);
+    // console.log(uid);
     dispatch(setLoadingDefault());
     axios
       .post(
@@ -46,34 +46,36 @@ const UserListContainer = () => {
 
   return (
     <Container>
-      <h4 className="mt-4">{userListLoading ? "loading" : "user lists"}</h4>
-      {userData.map((res) => (
-        <Wrap key={res.uid}>
-          <img src={res.photoURL} alt="" />
-          <div className="inner">
-            <p>{res.displayName}</p>
-            <p>{res.email}</p>
-            <p>{res.uid}</p>
-          </div>
-          <div className="inner-button">
-            <Button
-              children={`${res.disabled ? "Activate" : "Deactivate"}`}
-              buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
-              disabled={userListLoading}
-              onclick={() => {
-                deactivateAccount(res.uid, !res.disabled);
-              }}
-            />
-          </div>
-        </Wrap>
-      ))}
+      <h4 className="mt-4">{userListLoading ? "loading..." : "user lists"}</h4>
+      <div className="list-container">
+        {userData.map((res) => (
+          <Wrap key={res.uid}>
+            <img src={res.photoURL} alt="" />
+            <div className="inner">
+              <p>{res.displayName}</p>
+              <p>{res.email}</p>
+              <p>{res.uid}</p>
+            </div>
+            <div className="inner-button">
+              <Button
+                children={`${res.disabled ? "Activate" : "Deactivate"}`}
+                buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
+                disabled={userListLoading}
+                onclick={() => {
+                  deactivateAccount(res.uid, !res.disabled);
+                }}
+              />
+            </div>
+          </Wrap>
+        ))}
+      </div>
     </Container>
   );
 };
 
 const Container = styled.div`
-  background-color: #f2f3f2;
-  border: 1px solid lightgray;
+  background-color: #fcfcfc;
+  border: 1px solid #fcfcfc;
   min-height: 30rem;
   max-height: calc(100vh - 70px);
   flex: 1 1;
@@ -83,6 +85,33 @@ const Container = styled.div`
     margin: 10px 0;
     letter-spacing: 1px;
     text-transform: uppercase;
+  }
+  .list-container {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 70vh;
+  }
+
+  .list-container {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      width: 5px;
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #888;
+      }
+
+      /* Handle on hover */
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+    }
+  }
+
+  .list-container {
+    /* Firefox */
   }
 `;
 

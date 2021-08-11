@@ -68,7 +68,7 @@ const Form = styled.form`
   display: flex;
   border: 1px solid lightgray;
   border-top: 5px solid coral;
-  background-color: lightgray;
+  background-color: #fcfcfc;
   box-shadow: 1px 2px 2px lightgray;
   flex-direction: column;
   justify-content: flex-start;
@@ -93,6 +93,7 @@ const Wrap = styled.div`
     letter-spacing: 1.3px;
     border-radius: 4px;
     padding: 0.7rem;
+    background-color: lightgray;
     margin-top: 10px;
     &:focus {
       outline: 0;

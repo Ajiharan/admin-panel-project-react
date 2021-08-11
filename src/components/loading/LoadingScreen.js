@@ -8,6 +8,7 @@ import {
   selectEmailVerified,
 } from "../../features/auth/UserSlice";
 import { useHistory } from "react-router-dom";
+import LoadingSvg from "../common/LoadingSvg";
 
 const LoadingScreen = () => {
   const dispatch = useDispatch();
@@ -18,10 +19,7 @@ const LoadingScreen = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    console.log("called", loading);
     const unSubscribe = auth.onAuthStateChanged(async (user) => {
-      // console.log("user", user);
-      // console.log("called in db", loading);
       if (user) {
         // const { displayName, photoURL, emailVerified, email } = user;
         // await auth.currentUser
@@ -111,7 +109,7 @@ const LoadingScreen = () => {
   };
 
   return (
-    <React.Fragment>{!loading ? checkFunc() : <p>loading</p>}</React.Fragment>
+    <React.Fragment>{!loading ? checkFunc() : <LoadingSvg />}</React.Fragment>
   );
 };
 

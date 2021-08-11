@@ -19,7 +19,9 @@ const Button = ({
   return (
     <ButtonContainer>
       <button
-        className={`${btnStyle} ${btnSize} ${!disabled ? " btn-enable" : ""}`}
+        className={`${btnStyle} ${btnSize} ${
+          !disabled ? " btn-enable" : " btn-disable"
+        }`}
         style={{ backgroundColor: `${btnColor}` }}
         onClick={onclick}
         disabled={disabled}
@@ -45,6 +47,9 @@ const ButtonContainer = styled.div`
 
   .btn-enable {
     cursor: pointer;
+  }
+  .btn-disable {
+    cursor: not-allowed;
   }
   .small {
     padding: 0.5rem;
