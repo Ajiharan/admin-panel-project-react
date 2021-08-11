@@ -45,16 +45,33 @@ const UserListContainer = () => {
       });
   };
 
+  const onchange = (value) => {
+    console.log(value);
+    if (value !== "") {
+      const searchData = userData.filter(
+        (res) =>
+          res.displayName.toLowerCase().match(value) ||
+          res.email.toLowerCase().match(value)
+      );
+      setUserData(searchData);
+    } else {
+      setUserData(userList);
+    }
+  };
+
   return (
     <Container>
       <div className="top-header">
         <h4 className="mt-4">
-          {userListLoading ? "loading..." : `user lists: [${userData.length}]`}
+          {userListLoading ? "loading..." : `user lists: (${userData.length})`}
         </h4>
-        <SearchContainer />
+        <SearchContainer onchange={onchange} />
       </div>
 
       <div className="list-container">
+        {userData.length === 0 && (
+          <p className="no-record-found">!!Oops no records found</p>
+        )}
         {userData.map((res) => (
           <Wrap key={res.uid}>
             <img src={res.photoURL} alt="" />
@@ -104,6 +121,12 @@ const Container = styled.div`
     overflow-y: scroll;
     overflow-x: hidden;
     max-height: 70vh;
+    .no-record-found {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: red;
+    }
   }
 
   .list-container {

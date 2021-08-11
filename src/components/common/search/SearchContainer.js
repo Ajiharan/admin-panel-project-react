@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
-const SearchContainer = () => {
+const SearchContainer = ({ onchange }) => {
   return (
     <Search>
       <i className="fas fa-search"></i>
-      <input type="search" className="search-input" />
+      <input
+        type="search"
+        onChange={(e) => {
+          onchange(e.target.value);
+        }}
+        className="search-input"
+      />
     </Search>
   );
 };
