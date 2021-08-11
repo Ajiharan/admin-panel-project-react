@@ -11,6 +11,7 @@ import axios from "../../Axios";
 import { getAllUsers } from "../../features/auth/userAction";
 import { toast } from "react-hot-toast";
 import { setLoadingDefault } from "../../features/auth/userListSlice";
+import SearchContainer from "../common/search/SearchContainer";
 const UserListContainer = () => {
   const [userData, setUserData] = useState([]);
   const userList = useSelector(selectuserslist);
@@ -46,7 +47,13 @@ const UserListContainer = () => {
 
   return (
     <Container>
-      <h4 className="mt-4">{userListLoading ? "loading..." : "user lists"}</h4>
+      <div className="top-header">
+        <h4 className="mt-4">
+          {userListLoading ? "loading..." : `user lists: [${userData.length}]`}
+        </h4>
+        <SearchContainer />
+      </div>
+
       <div className="list-container">
         {userData.map((res) => (
           <Wrap key={res.uid}>
@@ -81,11 +88,18 @@ const Container = styled.div`
   flex: 1 1;
   margin-left: 1rem;
   padding: 0.5rem;
-  .mt-4 {
+  .top-header {
+    display: flex;
+    width: 100%;
+    align-items: center;
     margin: 10px 0;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    .mt-4 {
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-right: 10px;
+    }
   }
+
   .list-container {
     overflow-y: scroll;
     overflow-x: hidden;
