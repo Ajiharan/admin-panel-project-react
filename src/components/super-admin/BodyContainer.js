@@ -42,20 +42,21 @@ const ContainerBody = styled.div`
     "form form userlist";
 
   .form-container {
-    border: 1px solid red;
     grid-area: form;
     padding: 5px;
     display: flex;
   }
 
   .search {
-    border: 1px solid red;
     grid-area: search;
-    padding: 5px;
+    padding: 1rem;
+    margin-top: 5rem;
+    background-color: white;
+    box-shadow: 1px 1px 8px lightgray;
   }
   .userlist {
-    border: 1px solid red;
     grid-area: userlist;
+    background-color: white;
   }
 `;
 export default BodyContainer;
