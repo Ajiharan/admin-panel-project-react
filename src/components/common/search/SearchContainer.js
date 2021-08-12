@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 
-const SearchContainer = ({ onchange }) => {
+const SearchContainer = ({
+  onchange,
+  placeholder = "search by name | email address",
+}) => {
   return (
     <Search>
       <i className="fas fa-search"></i>
@@ -11,6 +14,7 @@ const SearchContainer = ({ onchange }) => {
           onchange(e.target.value);
         }}
         className="search-input"
+        placeholder={placeholder}
       />
     </Search>
   );

@@ -15,7 +15,8 @@ import {
 } from "../../features/auth/userListSlice";
 import useSignOut from "../useHooks/useSignOut";
 
-import { getAllUsers } from "../../features/auth/userAction";
+import { getAllUsers, getAllUsersIds } from "../../features/auth/userAction";
+import { auth } from "../../Firebase";
 const Home = () => {
   const email = useSelector(selectUserEmail);
   const userlevel = useSelector(selectUserLevel);
@@ -45,8 +46,10 @@ const Home = () => {
   }, [email, userlevel, uid, logout]);
 
   useEffect(() => {
+    console.log("uid", auth.currentUser.uid);
     if (localStorage.getItem("auth_admin")) {
       dispatch(getAllUsers());
+      dispatch(getAllUsersIds());
     }
   }, [storage]);
 
