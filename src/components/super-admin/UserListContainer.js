@@ -101,8 +101,9 @@ const Container = styled.div`
   background-color: #fcfcfc;
   border: 1px solid #fcfcfc;
   min-height: 30rem;
+
   max-height: calc(100vh - 70px);
-  flex: 1 1;
+  flex: 1 2;
   margin-left: 1rem;
   padding: 0.5rem;
   .top-header {
@@ -150,10 +151,15 @@ const Container = styled.div`
   .list-container {
     /* Firefox */
   }
+  @media only screen and (max-width: 1150px) {
+    max-width: 35rem;
+    min-width: 25rem;
+  }
 `;
 
 const Wrap = styled.div`
   display: flex;
+  flex: 1 1;
   padding: 0.5rem;
   box-shadow: 1px 2px 5px lightgray;
   margin-bottom: 1rem;
@@ -178,6 +184,18 @@ const Wrap = styled.div`
     }
   }
   .inner-button {
+  }
+  @media only screen and (max-width: 1150px) {
+    img {
+      width: 40px;
+      height: 40px;
+    }
+    .inner {
+      p {
+        letter-spacing: 0.4px;
+        font-size: 0.9rem;
+      }
+    }
   }
 `;
 

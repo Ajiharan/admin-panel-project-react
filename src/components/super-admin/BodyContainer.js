@@ -27,7 +27,6 @@ const BodyContainer = () => {
 
 const ContainerBody = styled.div`
   display: grid;
-
   overflow-x: hidden;
   background-color: white;
   width: 100vw;
@@ -57,6 +56,25 @@ const ContainerBody = styled.div`
   .userlist {
     grid-area: userlist;
     background-color: white;
+  }
+  @media only screen and (max-width: 1150px) {
+    grid-template-columns: 35vw 35vw 29.9vw;
+  }
+  @media only screen and (max-width: 970px) {
+    grid-template-rows: 0.32fr 0.4fr 0.1fr 0.3fr;
+    grid-template-areas:
+      "form form  form"
+      "form form form"
+      "search search ."
+      "userlist userlist .";
+
+    .search {
+      grid-area: search;
+      padding: 1rem;
+      margin-top: 0.1rem;
+      background-color: white;
+      box-shadow: 1px 1px 8px lightgray;
+    }
   }
 `;
 export default BodyContainer;
