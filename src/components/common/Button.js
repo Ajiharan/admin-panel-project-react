@@ -54,7 +54,7 @@ const ButtonContainer = styled.div`
   .small {
     padding: 0.5rem;
     font-size: 0.65rem;
-    width: 100px;
+    width: 100%;
   }
   .primary {
     font-size: 0.8rem;
