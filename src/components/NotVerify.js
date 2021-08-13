@@ -11,11 +11,11 @@ const NotVerify = () => {
 
   const sendVerificationLink = () => {
     setLoading(true);
-    // const urlSettings = {
-    //   url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
-    // };
+    const urlSettings = {
+      url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
+    };
     auth.currentUser
-      .sendEmailVerification()
+      .sendEmailVerification(urlSettings)
       .then(() => {
         setLoading(false);
         setColor("white");
@@ -33,7 +33,7 @@ const NotVerify = () => {
       url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
     };
     auth.currentUser
-      .sendEmailVerification()
+      .sendEmailVerification(urlSettings)
       .then(() => {
         setMessage("email verified sucessfully");
         setColor("white");

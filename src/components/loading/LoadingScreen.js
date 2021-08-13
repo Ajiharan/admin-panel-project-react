@@ -72,7 +72,6 @@ const LoadingScreen = () => {
       }
     });
     return () => {
-      console.log("called unSubscribed");
       unSubscribe();
     };
   }, [dispatch, loading]);
@@ -81,7 +80,7 @@ const LoadingScreen = () => {
     if (!!data) {
       const { displayName, photoURL, emailVerified, email, userlevel, uid } =
         data;
-      //   console.log("uuser", data);
+
       dispatch(
         setUserLoginDetails({
           name: displayName,
