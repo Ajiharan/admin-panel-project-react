@@ -73,6 +73,10 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: flex-start;
   border-radius: 5px;
+  @media only screen and (max-width: 760px) {
+    width: 100%;
+    padding: 0 3rem;
+  }
 `;
 const Wrap = styled.div`
   display: flex;

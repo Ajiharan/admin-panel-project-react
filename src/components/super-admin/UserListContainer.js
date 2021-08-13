@@ -151,9 +151,12 @@ const Container = styled.div`
   .list-container {
     /* Firefox */
   }
-  @media only screen and (max-width: 1150px) {
-    max-width: 35rem;
-    min-width: 25rem;
+  @media only screen and (max-width: 460px) {
+    /* max-width: 35rem;
+    min-width: 25rem; */
+    .mt-4 {
+      display: none;
+    }
   }
 `;
 

@@ -76,5 +76,15 @@ const ContainerBody = styled.div`
       box-shadow: 1px 1px 8px lightgray;
     }
   }
+  @media only screen and (max-width: 680px) {
+    grid-template-rows: 0.32fr 0.4fr 0.3fr;
+    grid-template-areas:
+      "form form  form"
+      "form form form"
+      "form form form";
+    .form-container {
+      flex-direction: column;
+    }
+  }
 `;
 export default BodyContainer;
