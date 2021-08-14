@@ -20,7 +20,6 @@ const getAllUsers = () => (dispatch) => {
       },
     })
     .then((result) => {
-      console.log(result.data);
       dispatch(
         getUserListSucess({ userlist: result.data, loading: false, error: "" })
       );
@@ -45,13 +44,13 @@ const getAllUsersIds = () => async (dispatch) => {
         await snapshot.docChanges().forEach(function (change) {
           if (change.type === "added") {
             var msg = "User " + change.doc.id + " is online.";
-            console.log(msg);
+            // console.log(msg);
             // ...
             arr.push(change.doc.id);
           }
           if (change.type === "removed") {
             var msg = "User " + change.doc.id + " is offline.";
-            console.log(msg);
+            // console.log(msg);
             // ...
           }
         });

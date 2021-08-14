@@ -7,6 +7,7 @@ const Button = ({
   buttonSize,
   children,
   disabled,
+  childrenIcon,
 }) => {
   const SIZE = ["small", "primary", "large"];
   const STYLE = ["default", "outset", "inset"];
@@ -18,16 +19,29 @@ const Button = ({
 
   return (
     <ButtonContainer>
-      <button
-        className={`${btnStyle} ${btnSize} ${
-          !disabled ? " btn-enable" : " btn-disable"
-        }`}
-        style={{ backgroundColor: `${btnColor}` }}
-        onClick={onclick}
-        disabled={disabled}
-      >
-        {children}
-      </button>
+      {childrenIcon && childrenIcon !== "" ? (
+        <button
+          className={`${btnStyle} ${btnSize} ${
+            !disabled ? " btn-enable" : " btn-disable"
+          } btn-child`}
+          style={{ backgroundColor: `${btnColor}` }}
+          onClick={onclick}
+          disabled={disabled}
+        >
+          {childrenIcon}
+        </button>
+      ) : (
+        <button
+          className={`${btnStyle} ${btnSize} ${
+            !disabled ? " btn-enable" : " btn-disable"
+          }`}
+          style={{ backgroundColor: `${btnColor}` }}
+          onClick={onclick}
+          disabled={disabled}
+        >
+          {children}
+        </button>
+      )}
     </ButtonContainer>
   );
 };
@@ -55,6 +69,7 @@ const ButtonContainer = styled.div`
     padding: 0.5rem;
     font-size: 0.65rem;
     width: 100%;
+    min-width: 70px;
   }
   .primary {
     font-size: 0.8rem;
@@ -63,6 +78,12 @@ const ButtonContainer = styled.div`
   .large {
     font-size: 1.2rem;
     width: 230px;
+  }
+
+  @media only screen and (max-width: 460px) {
+    .btn-child {
+      min-width: auto;
+    }
   }
 `;
 

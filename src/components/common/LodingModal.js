@@ -1,6 +1,6 @@
 import React from "react";
-import { Modal, Spinner } from "react-bootstrap";
-import LoadingIcon from "./LoadingIcon";
+import { Modal } from "react-bootstrap";
+
 import "./LoadingModal.css";
 
 const LodingModal = ({
@@ -19,9 +19,7 @@ const LodingModal = ({
     >
       <Modal.Body>
         <div className="modalContainer__body">
-          <Spinner animation="border" role="status" className="text-warning">
-            <LoadingIcon />
-          </Spinner>
+          <p>loading...</p>
           <p className="text-lead fw-bold text-warning">{message}</p>
         </div>
       </Modal.Body>

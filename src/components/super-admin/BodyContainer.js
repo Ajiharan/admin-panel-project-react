@@ -1,11 +1,46 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import SearchContainer from "../common/search/SearchContainer";
 import FormContainer from "./FormContainer";
 import UserListContainer from "./UserListContainer";
 import UserStatus from "./UserStatus";
+import {
+  setSearchData,
+  resetSearchData,
+} from "../../features/auth/searchSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectusersIds } from "../../features/auth/userOnlineList";
+import { selectuserslist } from "../../features/auth/userListSlice";
 const BodyContainer = () => {
-  const searchHandler = (value) => {};
+  const dispatch = useDispatch();
+
+  const userIds = useSelector(selectusersIds);
+  const userList = useSelector(selectuserslist);
+
+  useEffect(() => {
+    if (userList.length > 0) {
+      dispatch(
+        setSearchData({
+          searchData: userList.filter((r) => userIds.includes(r.uid)),
+        })
+      );
+    }
+  }, [userIds, userList]);
+
+  const searchHandler = (value) => {
+    if (value !== "") {
+      const searchData = userList
+        .filter((r) => userIds.includes(r.uid))
+        .filter((res) => res.displayName.toLowerCase().match(value));
+      dispatch(setSearchData({ searchData: searchData }));
+    } else {
+      dispatch(
+        setSearchData({
+          searchData: userList.filter((r) => userIds.includes(r.uid)),
+        })
+      );
+    }
+  };
   return (
     <ContainerBody>
       <div className="form-container">

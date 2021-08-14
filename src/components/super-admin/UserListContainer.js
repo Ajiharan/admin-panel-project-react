@@ -12,6 +12,7 @@ import { getAllUsers } from "../../features/auth/userAction";
 import { toast } from "react-hot-toast";
 import { setLoadingDefault } from "../../features/auth/userListSlice";
 import SearchContainer from "../common/search/SearchContainer";
+import { AiFillDelete } from "react-icons/all";
 const UserListContainer = () => {
   const [userData, setUserData] = useState([]);
   const userList = useSelector(selectuserslist);
@@ -81,14 +82,30 @@ const UserListContainer = () => {
               <p>{res.uid}</p>
             </div>
             <div className="inner-button">
-              <Button
-                children={`${res.disabled ? "Activate" : "Deactivate"}`}
-                buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
-                disabled={userListLoading}
-                onclick={() => {
-                  deactivateAccount(res.uid, !res.disabled);
-                }}
-              />
+              <div className="text-btn">
+                <Button
+                  children={`${res.disabled ? "Activate" : "Deactivate"}`}
+                  buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
+                  disabled={userListLoading}
+                  onclick={() => {
+                    deactivateAccount(res.uid, !res.disabled);
+                  }}
+                />
+              </div>
+
+              <div className="icon-btn">
+                <Button
+                  children={`${res.disabled ? "Activate" : "Deactivate"}`}
+                  buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
+                  disabled={userListLoading}
+                  childrenIcon={
+                    res.disabled ? <AiFillDelete /> : <AiFillDelete />
+                  }
+                  onclick={() => {
+                    deactivateAccount(res.uid, !res.disabled);
+                  }}
+                />
+              </div>
             </div>
           </Wrap>
         ))}
@@ -154,6 +171,7 @@ const Container = styled.div`
   @media only screen and (max-width: 460px) {
     /* max-width: 35rem;
     min-width: 25rem; */
+    margin-left: 0rem;
     .mt-4 {
       display: none;
     }
@@ -187,6 +205,17 @@ const Wrap = styled.div`
     }
   }
   .inner-button {
+    .icon-btn {
+      display: none;
+    }
+    @media only screen and (max-width: 460px) {
+      .icon-btn {
+        display: block;
+      }
+      .text-btn {
+        display: none;
+      }
+    }
   }
   @media only screen and (max-width: 1150px) {
     img {
@@ -200,6 +229,18 @@ const Wrap = styled.div`
       }
     }
   }
+  @media only screen and (max-width: 460px) {
+    img {
+      width: 30px;
+      height: 30px;
+    }
+    .inner {
+      p {
+        letter-spacing: 0.15px;
+        font-size: 0.6rem;
+      }
+    }
+  }
 `;
 
-export default UserListContainer;
+export default React.memo(UserListContainer);

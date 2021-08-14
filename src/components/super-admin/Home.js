@@ -36,7 +36,6 @@ const Home = () => {
         .then((res) => {
           localStorage.setItem("auth_admin", JSON.stringify(res.data));
           setStorage(JSON.stringify(res.data));
-          console.log("token", res.data);
         })
         .catch((err) => {
           console.log("error", err);
@@ -46,7 +45,6 @@ const Home = () => {
   }, [email, userlevel, uid, logout]);
 
   useEffect(() => {
-    console.log("uid", auth.currentUser.uid);
     if (localStorage.getItem("auth_admin")) {
       dispatch(getAllUsers());
       dispatch(getAllUsersIds());

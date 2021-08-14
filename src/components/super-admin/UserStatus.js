@@ -1,23 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useSelector } from "react-redux";
-import { selectusersIds } from "../../features/auth/userOnlineList";
-import { selectuserslist } from "../../features/auth/userListSlice";
+import { selectSearchData } from "../../features/auth/searchSlice";
+
 const UserStatus = () => {
-  const userIds = useSelector(selectusersIds);
-  const userList = useSelector(selectuserslist);
-  const [userData, setUserData] = useState([]);
-  useEffect(() => {
-    if (userList.length > 0) {
-      setUserData(userList.filter((r) => userIds.includes(r.uid)));
-    }
-    // console.log(userIds);
-  }, [userIds, userList]);
+  const searchData = useSelector(selectSearchData);
+
   return (
     <UserStatusList>
       <h4>online status</h4>
       <Container>
-        {userData.map((res) => (
+        {searchData?.map((res) => (
           <Wrap key={res.uid}>
             <span></span>
             <img src={res.photoURL} alt="" />
@@ -68,4 +61,4 @@ const Wrap = styled.div`
   }
 `;
 const Container = styled.div``;
-export default UserStatus;
+export default React.memo(UserStatus);
