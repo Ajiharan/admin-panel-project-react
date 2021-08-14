@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../common/Button";
 import useSignOut from "../useHooks/useSignOut";
+import { MdDashboard } from "react-icons/all";
 
 const Header = () => {
   return (
     <Navbar>
       <Link to="/" className="app-logo">
-        Logo
+        <MdDashboard />
       </Link>
       <Paths>
         <Link to="/">Users</Link>
@@ -61,6 +62,21 @@ const Paths = styled.div`
     transition: all ease-in 250ms;
     &:hover {
       color: #d9d9d9;
+    }
+  }
+  @media only screen and (max-width: 960px) {
+    a {
+      font-size: 0.9rem;
+    }
+  }
+  @media only screen and (max-width: 760px) {
+    a {
+      font-size: 0.8rem;
+    }
+  }
+  @media only screen and (max-width: 460px) {
+    a {
+      font-size: 0.7rem;
     }
   }
 `;
