@@ -10,13 +10,12 @@ import {
 } from "../../features/auth/UserSlice";
 import {
   selectError,
-  selectLoading,
   selectuserslist,
 } from "../../features/auth/userListSlice";
 import useSignOut from "../useHooks/useSignOut";
 
 import { getAllUsers, getAllUsersIds } from "../../features/auth/userAction";
-import { auth } from "../../Firebase";
+
 const Home = () => {
   const email = useSelector(selectUserEmail);
   const userlevel = useSelector(selectUserLevel);

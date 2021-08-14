@@ -47,12 +47,12 @@ const UserListContainer = () => {
   };
 
   const onchange = (value) => {
-    console.log(value);
+    // console.log(value.toLowerCase());
     if (value !== "") {
       const searchData = userData.filter(
         (res) =>
-          res.displayName.toLowerCase().match(value) ||
-          res.email.toLowerCase().match(value)
+          res.displayName.toLowerCase().match(value.toLowerCase()) ||
+          res.email.toLowerCase().match(value.toLowerCase())
       );
       setUserData(searchData);
     } else {

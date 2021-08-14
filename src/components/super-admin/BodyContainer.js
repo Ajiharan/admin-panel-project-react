@@ -31,7 +31,9 @@ const BodyContainer = () => {
     if (value !== "") {
       const searchData = userList
         .filter((r) => userIds.includes(r.uid))
-        .filter((res) => res.displayName.toLowerCase().match(value));
+        .filter((res) =>
+          res.displayName.toLowerCase().match(value.toLowerCase())
+        );
       dispatch(setSearchData({ searchData: searchData }));
     } else {
       dispatch(
@@ -96,7 +98,7 @@ const ContainerBody = styled.div`
     grid-template-columns: 35vw 35vw 29.9vw;
   }
   @media only screen and (max-width: 970px) {
-    grid-template-rows: 0.32fr 0.4fr 0.1fr 0.3fr;
+    grid-template-rows: 0.5fr 0.4fr 0.1fr 0.3fr;
     grid-template-areas:
       "form form  form"
       "form form form"
@@ -112,14 +114,20 @@ const ContainerBody = styled.div`
     }
   }
   @media only screen and (max-width: 680px) {
-    grid-template-rows: 0.32fr 0.4fr 0.3fr;
+    grid-template-rows: 0.5fr 0.51fr 0.3fr;
     grid-template-areas:
       "form form  form"
       "form form form"
-      "form form form";
+      "userlist userlist userlist";
     .form-container {
       flex-direction: column;
     }
+    /* .search {
+      display: none;
+    }
+    .userlist {
+      display: none;
+    } */
   }
 `;
 export default BodyContainer;
