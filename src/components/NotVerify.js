@@ -12,11 +12,11 @@ const NotVerify = () => {
   const { logout } = useSignOut();
   const sendVerificationLink = () => {
     setLoading(true);
-    const urlSettings = {
-      url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
-    };
+    // const urlSettings = {
+    //   url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
+    // };
     auth.currentUser
-      .sendEmailVerification(urlSettings)
+      .sendEmailVerification()
       .then(() => {
         setLoading(false);
         setColor("white");
@@ -30,11 +30,11 @@ const NotVerify = () => {
   };
 
   useEffect(() => {
-    const urlSettings = {
-      url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
-    };
+    // const urlSettings = {
+    //   url: "https://admin-panel-demo-8265f.firebaseapp.com/path?confirm_email=true",
+    // };
     auth.currentUser
-      .sendEmailVerification(urlSettings)
+      .sendEmailVerification()
       .then(() => {
         setMessage("email verified sucessfully");
         setColor("white");

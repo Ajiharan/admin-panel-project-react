@@ -168,7 +168,8 @@ const Bottom = styled.div`
     cursor: pointer;
     z-index: 1;
     position: relative;
-
+    transition: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+    /* 
     &:before {
       content: "";
       width: 0rem;
@@ -181,7 +182,7 @@ const Bottom = styled.div`
       opacity: 1;
       position: absolute;
       background-color: #33bbff;
-    }
+    } */
     @media only screen and (max-width: 760px) {
       height: 1.6rem;
       width: 5rem;
@@ -191,7 +192,8 @@ const Bottom = styled.div`
   .button-design {
     &:hover {
       button {
-        font-weight: 600;
+        font-weight: 500;
+        background-color: #33bbff;
       }
       button:before {
         width: 6rem;

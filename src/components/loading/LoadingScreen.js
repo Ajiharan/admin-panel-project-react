@@ -107,9 +107,7 @@ const LoadingScreen = () => {
     return <Login />;
   };
 
-  return (
-    <React.Fragment>{!loading ? checkFunc() : <LoadingSvg />}</React.Fragment>
-  );
+  return <div>{!loading ? checkFunc() : <LoadingSvg />}</div>;
 };
 
 export default LoadingScreen;

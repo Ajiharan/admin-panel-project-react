@@ -53,6 +53,7 @@ const Wrap = styled.div`
   }
   img {
     width: 35px;
+    height: 35px;
     padding: 2px;
     object-fit: contain;
     border-radius: 50%;

@@ -12,6 +12,7 @@ const Header = () => {
       <Link to="/" className="app-logo">
         <MdDashboard />
       </Link>
+
       <Paths>
         <Link to="/">Users</Link>
         <Link to="/">Entries</Link>
@@ -38,7 +39,6 @@ const Navbar = styled.nav`
   align-items: center;
 
   .app-logo {
-    flex: 1 1;
     margin-left: 10px;
     text-decoration: none;
     color: white;
@@ -50,6 +50,7 @@ const Navbar = styled.nav`
 
 const Paths = styled.div`
   width: 55vw;
+  flex: 1 1;
   display: grid;
   grid-template-columns: repeat(4, auto);
   justify-content: end;
