@@ -5,8 +5,11 @@ import styled from "styled-components";
 import Button from "../common/Button";
 import useSignOut from "../useHooks/useSignOut";
 import { MdDashboard } from "react-icons/all";
+import { useSelector } from "react-redux";
+import { selectUid } from "../../features/auth/UserSlice";
 
 const Header = () => {
+  const userlevel = useSelector(selectUid);
   return (
     <Navbar>
       <Link to="/" className="app-logo">
@@ -14,9 +17,10 @@ const Header = () => {
       </Link>
 
       <Paths>
-        <Link to="/">Users</Link>
+        {userlevel === 1 && <Link to="/">Users</Link>}
         <Link to="/">Entries</Link>
-        <Link to="/">Trash</Link>
+        <Link to="/">Profile</Link>
+        {userlevel === 1 && <Link to="/">Trash</Link>}
       </Paths>
       <div className="button-container">
         <Button

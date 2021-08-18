@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { auth, db, rd } from "../../Firebase";
 import Header from "../header/Header";
 import firebase from "firebase";
+import AminHomeContainer from "./AminHomeContainer";
 
 const AdminHome = () => {
   // const realTimeRef = useRef();
@@ -92,6 +93,7 @@ const AdminHome = () => {
   return (
     <div>
       <Header />
+      <AminHomeContainer />
     </div>
   );
 };
