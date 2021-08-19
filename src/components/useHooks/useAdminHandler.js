@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addEntry } from "../../features/admin/AdminEntryAction";
+import toast from "react-hot-toast";
 const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -24,10 +25,10 @@ const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
         .min(2, "minimum 2 images are required"),
     }),
     onSubmit: (values, { resetForm }) => {
-      onUploadSubmission();
+      onUploadSubmission(resetForm, values);
     },
   });
-  const onUploadSubmission = () => {
+  const onUploadSubmission = (resetForm, values) => {
     // prevent page refreshing
     const promises = [];
 
@@ -72,7 +73,17 @@ const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
         });
         Promise.all(urlPromises)
           .then((res) => {
-            console.log("urlRes", res);
+            const { fname, lname, pno, address } = values;
+            dispatch(
+              addEntry({
+                imageArr: res,
+                firstname: fname,
+                lastname: lname,
+                address,
+                phoneNo: pno,
+              })
+            );
+            resetForm();
             setFileObj([]);
             setImage([]);
           })
@@ -80,9 +91,11 @@ const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
             console.log("err", err);
             setFileObj([]);
             setImage([]);
+            resetForm();
           });
       })
       .catch((err) => {
+        toast.error(err?.code || "Oops something wrong");
         console.log(err.code);
         setFileObj([]);
         setImage([]);

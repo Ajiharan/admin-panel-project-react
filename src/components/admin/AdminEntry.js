@@ -4,13 +4,19 @@ import { TiUpload } from "react-icons/all";
 import useAdminHandler from "../useHooks/useAdminHandler";
 import Button from "../common/Button";
 import { storage } from "../../Firebase";
+import { useSelector } from "react-redux";
+import {
+  selectDataError,
+  selectEntryData,
+  selectDataLoading,
+} from "../../features/admin/AdminSlice";
 const AdminEntry = () => {
   const [images, setImages] = useState([]);
   const [fileObj, setFileObj] = useState([]);
   const { formik } = useAdminHandler(fileObj, setFileObj, setImages, storage);
+
   const uploadSingleFile = (e) => {
     setFileObj([...e.target.files]);
-    // console.log(fileObj);
   };
   useEffect(() => {
     setImages(fileObj.map((data) => URL.createObjectURL(data)));
