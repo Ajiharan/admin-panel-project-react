@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { TiUpload } from "react-icons/all";
 import useAdminHandler from "../useHooks/useAdminHandler";
-import AdminImageUpload from "./AdminImageUpload";
 import Button from "../common/Button";
-
+import { storage } from "../../Firebase";
 const AdminEntry = () => {
   const [images, setImages] = useState([]);
   const [fileObj, setFileObj] = useState([]);
-  const { formik } = useAdminHandler();
+  const { formik } = useAdminHandler(fileObj, setFileObj, setImages, storage);
   const uploadSingleFile = (e) => {
     setFileObj([...e.target.files]);
     // console.log(fileObj);
@@ -111,6 +110,7 @@ const UploadImages = styled.div`
   .outfit-layer {
   }
   img {
+    flex: 1;
     min-width: 10rem;
     width: 14rem;
     min-height: 10rem;

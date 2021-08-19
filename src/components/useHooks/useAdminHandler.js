@@ -1,7 +1,9 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
-const useAdminHandler = () => {
+import { useDispatch } from "react-redux";
+import { addEntry } from "../../features/admin/AdminEntryAction";
+const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       fname: "",
@@ -22,11 +24,71 @@ const useAdminHandler = () => {
         .min(2, "minimum 2 images are required"),
     }),
     onSubmit: (values, { resetForm }) => {
-      console.log("values", values);
+      onUploadSubmission();
     },
   });
+  const onUploadSubmission = () => {
+    // prevent page refreshing
+    const promises = [];
 
-  return { formik };
+    fileObj.forEach((image) => {
+      const uploadTask = storage.ref(`admin/${image.name}`).put(image);
+      promises.push(uploadTask);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          const progressPercentage = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          console.log(image.name, progressPercentage);
+        },
+        (err) => {
+          console.log(err.message);
+        },
+        () => {
+          // console.log("triggered");
+        }
+      );
+    });
+
+    Promise.all(promises)
+      .then(() => {
+        console.log("All files uploaded");
+        const urlPromises = [];
+        fileObj.forEach((fileData) => {
+          urlPromises.push(
+            new Promise((resolve, reject) => {
+              storage
+                .ref(`admin/${fileData.name}`)
+                .getDownloadURL()
+                .then((res) => {
+                  resolve(res);
+                })
+                .catch((err) => {
+                  reject(err);
+                });
+            })
+          );
+        });
+        Promise.all(urlPromises)
+          .then((res) => {
+            console.log("urlRes", res);
+            setFileObj([]);
+            setImage([]);
+          })
+          .catch((err) => {
+            console.log("err", err);
+            setFileObj([]);
+            setImage([]);
+          });
+      })
+      .catch((err) => {
+        console.log(err.code);
+        setFileObj([]);
+        setImage([]);
+      });
+  };
+  return { formik, onUploadSubmission };
 };
 
 export default useAdminHandler;
