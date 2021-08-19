@@ -3,7 +3,7 @@ import { auth, db, rd } from "../../Firebase";
 import Header from "../header/Header";
 import firebase from "firebase";
 import AminHomeContainer from "./AminHomeContainer";
-
+import "../../App.css";
 const AdminHome = () => {
   // const realTimeRef = useRef();
   const checkOnline = async () => {
@@ -91,7 +91,7 @@ const AdminHome = () => {
   // }, []);
 
   return (
-    <div>
+    <div className="admin-home">
       <Header />
       <AminHomeContainer />
     </div>

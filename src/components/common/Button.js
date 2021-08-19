@@ -8,6 +8,7 @@ const Button = ({
   children,
   disabled,
   childrenIcon,
+  type,
 }) => {
   const SIZE = ["small", "primary", "large"];
   const STYLE = ["default", "outset", "inset"];
@@ -26,6 +27,7 @@ const Button = ({
           } btn-child`}
           style={{ backgroundColor: `${btnColor}` }}
           onClick={onclick}
+          type={type || "button"}
           disabled={disabled}
         >
           {childrenIcon}
@@ -37,6 +39,7 @@ const Button = ({
           }`}
           style={{ backgroundColor: `${btnColor}` }}
           onClick={onclick}
+          type={type || "button"}
           disabled={disabled}
         >
           {children}
