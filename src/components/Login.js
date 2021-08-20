@@ -7,7 +7,7 @@ import LodingModal from "./common/LodingModal";
 import toast from "react-hot-toast";
 import useFormikHandler from "./useHooks/useFormikHandler";
 const Login = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const formik = useFormikHandler(
     setLoading,
