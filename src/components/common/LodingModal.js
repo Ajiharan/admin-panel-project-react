@@ -7,6 +7,7 @@ const LodingModal = ({
   show,
   message = "Please wait we are checking your creditionals...",
   width = "100%",
+  height = "auto",
 }) => {
   return (
     <Modal
@@ -15,7 +16,7 @@ const LodingModal = ({
       keyboard={false}
       centered
       dialogClassName="loadingModal"
-      style={{ width: width }}
+      style={{ width: width, height: height }}
     >
       <Modal.Body>
         <div className="modalContainer__body">

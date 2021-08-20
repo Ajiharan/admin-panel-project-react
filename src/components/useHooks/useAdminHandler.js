@@ -3,7 +3,14 @@ import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { addEntry } from "../../features/admin/AdminEntryAction";
 import toast from "react-hot-toast";
-const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
+const useAdminHandler = (
+  fileObj,
+  setFileObj,
+  setImage,
+  storage,
+  uid,
+  setLoading
+) => {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -25,6 +32,7 @@ const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
         .min(2, "minimum 2 images are required"),
     }),
     onSubmit: (values, { resetForm }) => {
+      setLoading(true);
       onUploadSubmission(resetForm, values);
     },
   });
@@ -81,8 +89,10 @@ const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
                 lastname: lname,
                 address,
                 phoneNo: pno,
+                uid,
               })
             );
+
             resetForm();
             setFileObj([]);
             setImage([]);
@@ -99,6 +109,7 @@ const useAdminHandler = (fileObj, setFileObj, setImage, storage) => {
         console.log(err.code);
         setFileObj([]);
         setImage([]);
+        setLoading(false);
       });
   };
   return { formik, onUploadSubmission };

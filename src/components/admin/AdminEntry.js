@@ -4,16 +4,46 @@ import { TiUpload } from "react-icons/all";
 import useAdminHandler from "../useHooks/useAdminHandler";
 import Button from "../common/Button";
 import { storage } from "../../Firebase";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   selectDataError,
   selectEntryData,
   selectDataLoading,
+  resetData,
 } from "../../features/admin/AdminSlice";
-const AdminEntry = () => {
+import { selectUid } from "../../features/auth/UserSlice";
+import toast from "react-hot-toast";
+const AdminEntry = ({ loading, setLoading }) => {
   const [images, setImages] = useState([]);
   const [fileObj, setFileObj] = useState([]);
-  const { formik } = useAdminHandler(fileObj, setFileObj, setImages, storage);
+  const dispatch = useDispatch();
+
+  const userId = useSelector(selectUid);
+  const dataError = useSelector(selectDataError);
+  const entryData = useSelector(selectEntryData);
+  const dataloading = useSelector(selectDataLoading);
+
+  const { formik } = useAdminHandler(
+    fileObj,
+    setFileObj,
+    setImages,
+    storage,
+    userId,
+    setLoading
+  );
+
+  useEffect(() => {
+    if ((dataError !== null || entryData !== null) && !dataloading) {
+      setLoading(false);
+      if (dataError) {
+        toast.error("Oops something wrong");
+      } else {
+        toast.success("entry sucessfully updated");
+      }
+      dispatch(resetData());
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataError, entryData, dataloading]);
 
   const uploadSingleFile = (e) => {
     setFileObj([...e.target.files]);

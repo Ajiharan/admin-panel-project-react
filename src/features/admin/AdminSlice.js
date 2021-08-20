@@ -25,10 +25,15 @@ const adminAddSlice = createSlice({
       state.loading = action.payload.loading;
       state.error = action.payload.error;
     },
+    resetData: (state) => {
+      state.entryData = null;
+      state.loading = false;
+      state.error = null;
+    },
   },
 });
 
-export const { addEntryFailure, addEntryRequest, addEntrySuccess } =
+export const { resetData, addEntryFailure, addEntryRequest, addEntrySuccess } =
   adminAddSlice.actions;
 
 export const selectEntryData = (state) => state.adminAdd.entryData;
