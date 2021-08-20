@@ -128,7 +128,7 @@ const AdminEntry = ({ loading, setLoading }) => {
 const Upload = styled.div`
   overflow-x: hidden;
   margin: 1rem 1rem;
-  width: 50vw;
+  width: 70vw;
 `;
 const UploadImages = styled.div`
   margin-top: 1rem;
@@ -140,8 +140,6 @@ const UploadImages = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: 1rem;
-
-  height: 100%;
 
   .outfit-layer {
   }

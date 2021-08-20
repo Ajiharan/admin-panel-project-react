@@ -20,6 +20,8 @@ const AminHomeContainer = () => {
   );
 };
 const Container = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
   overflow-x: hidden;
 `;
 

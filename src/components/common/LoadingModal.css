@@ -1,5 +1,5 @@
 .modal-content {
-  width: 40vw;
+  width: 32vw;
 }
 .modalContainer__body {
   display: flex;
@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   padding: 1rem;
-  height: 25vh;
+  min-height: 30vh;
   border-radius: 20px;
   background-color: rgb(58, 56, 56);
   opacity: 0.89;
@@ -30,25 +30,25 @@
 
 @media only screen and (max-width: 960px) {
   .modal-content {
-    width: 80vw;
+    width: 50vw;
   }
   .modalContainer__body {
-    height: 20vh;
+    min-height: 32vh;
   }
 }
 @media only screen and (max-width: 760px) {
   .modal-content {
-    width: 85vw;
+    width: 70vw;
   }
   .modalContainer__body {
-    height: 25vh;
+    min-height: 35vh;
   }
 }
 @media only screen and (max-width: 400px) {
   .modal-content {
-    width: 100vw;
+    width: 90vw;
   }
   .modalContainer__body {
-    height: 35vh;
+    min-height: 38vh;
   }
 }

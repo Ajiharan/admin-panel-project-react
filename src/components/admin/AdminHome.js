@@ -53,6 +53,19 @@ const AdminHome = () => {
   };
 
   useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        console.log("user", user);
+      } else {
+        console.log("user is disabled");
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
     checkOnline();
     return () => {
       // realTimeRef.current();
