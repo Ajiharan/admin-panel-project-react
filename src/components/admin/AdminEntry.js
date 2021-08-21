@@ -129,6 +129,12 @@ const Upload = styled.div`
   overflow-x: hidden;
   margin: 1rem 1rem;
   width: 70vw;
+  @media only screen and (max-width: 980px) {
+    width: 70vw;
+  }
+  @media only screen and (max-width: 800px) {
+    width: 100vw;
+  }
 `;
 const UploadImages = styled.div`
   margin-top: 1rem;
@@ -136,10 +142,13 @@ const UploadImages = styled.div`
   border-top: 1px solid lightgray;
   border-right: 1px solid lightgray;
   border-left: 1px solid lightgray;
-
   display: flex;
   flex-wrap: wrap;
   padding: 1rem;
+  @media only screen and (max-width: 980px) {
+    margin-top: 0.8rem;
+    padding: 0.8rem;
+  }
 
   .outfit-layer {
   }
@@ -152,6 +161,12 @@ const UploadImages = styled.div`
     margin-top: 0.5rem;
     margin-right: 1rem;
     object-fit: contain;
+    @media only screen and (max-width: 980px) {
+      min-width: 9rem;
+      width: 12rem;
+      min-height: 8rem;
+      height: 13rem;
+    }
   }
 `;
 const UploadForm = styled.form`
@@ -181,6 +196,20 @@ const UploadForm = styled.form`
       font-weight: 500;
     }
   }
+  @media only screen and (max-width: 980px) {
+    .form-group {
+      padding: 0.38rem;
+      input,
+      textarea {
+        border: 1px solid lightgray;
+        padding: 0.4rem;
+        margin: 0.4rem 0;
+      }
+      label:not(.AddProduct__file) {
+        font-size: 0.9rem;
+      }
+    }
+  }
   .AddProduct__file {
     color: white;
     padding: 2px;
@@ -201,6 +230,11 @@ const UploadForm = styled.form`
     .upload-image {
       font-size: 1.1rem;
       color: white;
+    }
+    @media only screen and (max-width: 980px) {
+      width: 100px;
+      margin: 0.9rem 0.4rem;
+      font-size: 0.78rem;
     }
   }
 `;

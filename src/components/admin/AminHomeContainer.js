@@ -23,6 +23,9 @@ const Container = styled.div`
   display: flex;
   flex-wrap: nowrap;
   overflow-x: hidden;
+  @media only screen and (max-width: 800px) {
+    flex-wrap: wrap;
+  }
 `;
 
 export default AminHomeContainer;

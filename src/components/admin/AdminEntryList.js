@@ -7,6 +7,7 @@ import { getEntry } from "../../features/admin/AdminEntryAction";
 import { selectUid } from "../../features/auth/UserSlice";
 import { db } from "../../Firebase";
 import { useLocation } from "react-router-dom";
+import { RiDeleteBin2Fill, RiEditCircleFill } from "react-icons/all";
 const AdminEntryList = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUid);
@@ -42,7 +43,7 @@ const AdminEntryList = () => {
       <Table striped bordered hover responsive>
         <thead>
           <tr>
-            <th>Profiles</th>
+            <th className="head-profile">Profiles</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Address</th>
@@ -65,16 +66,33 @@ const AdminEntryList = () => {
               <td>{entry.phoneNo}</td>
               <td>
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger btn-sm spn-del"
                   onClick={() => {
                     deleteEntry(id);
                   }}
                 >
                   Delete
                 </button>
+                <span
+                  className="icon-mob"
+                  onClick={() => {
+                    deleteEntry(id);
+                  }}
+                >
+                  <RiDeleteBin2Fill
+                    style={{ color: "red", cursor: "pointer" }}
+                  />
+                </span>
               </td>
               <td>
-                <button className="btn btn-success">Edit</button>
+                <button className="btn btn-success btn-sm spn-edit">
+                  Edit
+                </button>
+                <span className="icon-mob">
+                  <RiDeleteBin2Fill
+                    style={{ color: "green", cursor: "pointer" }}
+                  />
+                </span>
               </td>
             </tr>
           ))}
@@ -85,6 +103,9 @@ const AdminEntryList = () => {
 };
 
 const AdminEntry = styled.div`
+  .icon-mob {
+    display: none;
+  }
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   width: 100%;
@@ -96,6 +117,44 @@ const AdminEntry = styled.div`
     margin: 4px;
     width: 70px;
     height: fit-content;
+  }
+  @media only screen and (max-width: 980px) {
+    padding: 0.5rem 0.8rem;
+    .small-img {
+      flex: 1 1;
+      margin: 4px;
+      width: 50px;
+      height: fit-content;
+    }
+    th,
+    td {
+      font-size: 0.8rem;
+    }
+  }
+  @media only screen and (max-width: 560px) {
+    width: 100vw;
+    .img-data {
+      display: none !important;
+    }
+    .head-profile {
+      display: none;
+    }
+  }
+  @media only screen and (max-width: 480px) {
+    width: 100vw;
+    .spn-edit {
+      display: none;
+    }
+    .spn-del {
+      display: none;
+    }
+    .icon-mob {
+      display: block;
+    }
+    th,
+    td {
+      font-size: 0.6rem;
+    }
   }
 `;
 export default React.memo(AdminEntryList);
