@@ -52,7 +52,7 @@ const AdminEntryList = () => {
             <th>Edit</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="entry-form-data">
           {entryDatas.map(({ id, entry }) => (
             <tr key={id}>
               <td className="d-flex img-data">
@@ -117,6 +117,10 @@ const AdminEntry = styled.div`
     margin: 4px;
     width: 70px;
     height: fit-content;
+  }
+  .table {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
   }
   @media only screen and (max-width: 980px) {
     padding: 0.5rem 0.8rem;
