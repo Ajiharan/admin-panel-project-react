@@ -167,6 +167,18 @@ const UploadImages = styled.div`
       min-height: 8rem;
       height: 13rem;
     }
+    @media only screen and (max-width: 780px) {
+      min-width: 8rem;
+      width: 11rem;
+      min-height: 7rem;
+      height: 12rem;
+    }
+    @media only screen and (max-width: 480px) {
+      min-width: 6rem;
+      width: 9rem;
+      min-height: 6.5rem;
+      height: 10rem;
+    }
   }
 `;
 const UploadForm = styled.form`
@@ -210,6 +222,34 @@ const UploadForm = styled.form`
       }
     }
   }
+  @media only screen and (max-width: 780px) {
+    .form-group {
+      padding: 0.28rem;
+      input,
+      textarea {
+        border: 1px solid lightgray;
+        padding: 0.28rem;
+        margin: 0.3rem 0;
+      }
+      label:not(.AddProduct__file) {
+        font-size: 0.75rem;
+      }
+    }
+  }
+  @media only screen and (max-width: 480px) {
+    .form-group {
+      padding: 0.25rem;
+      input,
+      textarea {
+        border: 1px solid lightgray;
+        padding: 0.2rem;
+        margin: 0.3rem 0;
+      }
+      label:not(.AddProduct__file) {
+        font-size: 0.65rem;
+      }
+    }
+  }
   .AddProduct__file {
     color: white;
     padding: 2px;
@@ -235,6 +275,16 @@ const UploadForm = styled.form`
       width: 100px;
       margin: 0.9rem 0.4rem;
       font-size: 0.78rem;
+    }
+    @media only screen and (max-width: 780px) {
+      width: 80px;
+      margin: 0.7rem 0.3rem;
+      font-size: 0.65rem;
+    }
+    @media only screen and (max-width: 480px) {
+      width: 60px;
+      margin: 0.55rem 0.28rem;
+      font-size: 0.6rem;
     }
   }
 `;
