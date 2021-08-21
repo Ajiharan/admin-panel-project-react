@@ -161,7 +161,7 @@ const Bottom = styled.div`
     color: white;
     width: 7rem;
     height: 2rem;
-    padding: 0.5rem 0.5rem;
+
     border: none;
     background-color: #1aa3ff;
     border-radius: 4px;

@@ -51,8 +51,11 @@ const Button = ({
 
 const ButtonContainer = styled.div`
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border: none;
-    padding: 0.8rem;
+    padding: 0.35rem;
     color: white;
     border-radius: 10px;
     transition: 250ms cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
@@ -69,9 +72,9 @@ const ButtonContainer = styled.div`
     cursor: not-allowed;
   }
   .small {
-    padding: 0.5rem;
     font-size: 0.65rem;
     width: 100%;
+    padding: 0.25rem;
     min-width: 70px;
   }
   .primary {

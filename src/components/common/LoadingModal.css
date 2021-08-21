@@ -1,5 +1,7 @@
 .modal-content {
   width: 32vw;
+  background-color: transparent !important;
+  border: none !important ;
 }
 .modalContainer__body {
   display: flex;

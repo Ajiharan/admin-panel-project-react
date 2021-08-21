@@ -4,7 +4,12 @@ import {
   addEntryRequest,
   addEntrySuccess,
 } from "./AdminSlice";
-
+import {
+  getEntryFailure,
+  getEntryRequest,
+  getEntrySuccess,
+} from "./AdminEntrySlice.js";
+let unsub;
 const addEntry = (data) => (dispatch) => {
   try {
     dispatch(addEntryRequest());
@@ -25,4 +30,26 @@ const addEntry = (data) => (dispatch) => {
   }
 };
 
-export { addEntry };
+const getEntry = (uid) => (dispatch) => {
+  try {
+    dispatch(getEntryRequest());
+    const unsubscribe = db
+      .collection("entries")
+      .where("uid", "==", uid)
+      .onSnapshot(async (snapshot) => {
+        const tempData = await snapshot.docs.map((doc) => ({
+          id: doc.id,
+          entry: doc.data(),
+        }));
+        // console.log("tempData", tempData);
+        dispatch(
+          getEntrySuccess({ loading: false, error: null, entryDatas: tempData })
+        );
+      });
+    return unsubscribe;
+  } catch (err) {
+    dispatch(getEntryFailure({ loading: false, error: err, entryDatas: [] }));
+  }
+};
+
+export { addEntry, getEntry };
