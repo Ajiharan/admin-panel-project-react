@@ -9,7 +9,7 @@ import {
   getEntryRequest,
   getEntrySuccess,
 } from "./AdminEntrySlice.js";
-let unsub;
+
 const addEntry = (data) => (dispatch) => {
   try {
     dispatch(addEntryRequest());
@@ -41,7 +41,7 @@ const getEntry = (uid) => (dispatch) => {
           id: doc.id,
           entry: doc.data(),
         }));
-        // console.log("tempData", tempData);
+        console.log("tempData", tempData);
         dispatch(
           getEntrySuccess({ loading: false, error: null, entryDatas: tempData })
         );

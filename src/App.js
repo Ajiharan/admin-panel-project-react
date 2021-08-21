@@ -48,7 +48,7 @@ function App() {
     } else {
       routes = (
         <Switch>
-          {/* super admin path */}
+          {/*  admin path */}
           <Route exact path="/home" component={AdminHome} />
           <Redirect to="/home" />
         </Switch>

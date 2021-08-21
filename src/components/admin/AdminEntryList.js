@@ -6,11 +6,16 @@ import { selectEntryDatas } from "../../features/admin/AdminEntrySlice";
 import { getEntry } from "../../features/admin/AdminEntryAction";
 import { selectUid } from "../../features/auth/UserSlice";
 import { db } from "../../Firebase";
+import { useLocation } from "react-router-dom";
 const AdminEntryList = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUid);
   const entryDatas = useSelector(selectEntryDatas);
+  const location = useLocation();
 
+  useEffect(() => {
+    console.log("on route change", location.pathname);
+  }, [location]);
   useEffect(() => {
     const sub = dispatch(getEntry(userId));
     return () => {
@@ -19,7 +24,7 @@ const AdminEntryList = () => {
         sub();
       }
     };
-  }, [userId]);
+  }, [userId, dispatch, location.pathname]);
 
   const deleteEntry = (id) => {
     db.collection("entries")
@@ -34,9 +39,10 @@ const AdminEntryList = () => {
   };
   return (
     <AdminEntry>
-      <Table striped bordered hover variant="dark" responsive>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
+            <th>Profiles</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Address</th>
@@ -48,6 +54,11 @@ const AdminEntryList = () => {
         <tbody>
           {entryDatas.map(({ id, entry }) => (
             <tr key={id}>
+              <td className="d-flex img-data">
+                {entry.imageArr.map((image) => (
+                  <img src={image} alt="profile" className="small-img" />
+                ))}
+              </td>
               <td>{entry.firstname}</td>
               <td>{entry.lastname}</td>
               <td>{entry.address}</td>
@@ -77,5 +88,14 @@ const AdminEntry = styled.div`
   margin-top: 1rem;
   padding: 0.5rem 1rem;
   width: 100%;
+  .img-data {
+    flex-wrap: wrap;
+  }
+  .small-img {
+    flex: 1 1;
+    margin: 4px;
+    width: 70px;
+    height: fit-content;
+  }
 `;
-export default AdminEntryList;
+export default React.memo(AdminEntryList);
