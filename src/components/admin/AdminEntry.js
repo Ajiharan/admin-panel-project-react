@@ -13,7 +13,16 @@ import {
 } from "../../features/admin/AdminSlice";
 import { selectUid } from "../../features/auth/UserSlice";
 import toast from "react-hot-toast";
-const AdminEntry = ({ loading, setLoading }) => {
+import { selectEntryDatas } from "../../features/admin/AdminEntrySlice";
+const AdminEntry = ({
+  loading,
+  setLoading,
+  formData,
+  eid,
+  isUpdate,
+  setEid,
+  setisUpdate,
+}) => {
   const [images, setImages] = useState([]);
   const [fileObj, setFileObj] = useState([]);
   const dispatch = useDispatch();
@@ -22,6 +31,7 @@ const AdminEntry = ({ loading, setLoading }) => {
   const dataError = useSelector(selectDataError);
   const entryData = useSelector(selectEntryData);
   const dataloading = useSelector(selectDataLoading);
+  const entries = useSelector(selectEntryDatas);
 
   const { formik } = useAdminHandler(
     fileObj,
@@ -31,6 +41,13 @@ const AdminEntry = ({ loading, setLoading }) => {
     userId,
     setLoading
   );
+
+  useEffect(() => {
+    formik.setValues(formData);
+    if (entries.find(({ id }) => id === eid)?.entry?.imageArr.length > 0) {
+      setImages(entries.find(({ id }) => id === eid)?.entry?.imageArr);
+    }
+  }, [formData]);
 
   useEffect(() => {
     if ((dataError !== null || entryData !== null) && !dataloading) {
@@ -49,9 +66,20 @@ const AdminEntry = ({ loading, setLoading }) => {
     setFileObj([...e.target.files]);
   };
   useEffect(() => {
+    // console.log(
+    //   "fileObjsssss",
+    //   fileObj.map((data) => URL.createObjectURL(data))
+    // );
     setImages(fileObj.map((data) => URL.createObjectURL(data)));
   }, [fileObj]);
 
+  const cancelHandler = () => {
+    console.log("triggered");
+    setEid(null);
+    setImages([]);
+    setisUpdate(false);
+    formik.resetForm({});
+  };
   return (
     <Upload>
       <UploadImages>
@@ -119,7 +147,23 @@ const AdminEntry = ({ loading, setLoading }) => {
             <p style={{ opacity: 0 }}>{"null"}</p>
           )}
         </div>
-        <Button type="submit" buttonSize="primary" children="Add Entry" />
+        <div className="btn-grp">
+          <Button
+            type="submit"
+            buttonColor={isUpdate && "coral"}
+            buttonSize="primary"
+            children={isUpdate ? "Update" : "Add Entry"}
+          />
+          {isUpdate && (
+            <Button
+              type="button"
+              buttonColor="#62ea62"
+              buttonSize="primary"
+              children="Cancel"
+              onclick={cancelHandler}
+            />
+          )}
+        </div>
       </UploadForm>
     </Upload>
   );
@@ -186,6 +230,15 @@ const UploadForm = styled.form`
   border-right: 1px solid lightgray;
   border-left: 1px solid lightgray;
   padding: 1rem;
+  .btn-grp {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    button {
+      margin-top: 0.25rem;
+      margin-right: 0.1rem;
+    }
+  }
   .form-group {
     display: flex;
     flex-direction: column;

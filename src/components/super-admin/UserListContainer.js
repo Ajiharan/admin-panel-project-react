@@ -75,7 +75,7 @@ const UserListContainer = () => {
         )}
         {userData.map((res) => (
           <Wrap key={res.uid}>
-            <img src={res.photoURL} alt="" />
+            <img src={res.photoURL} loading="lazy" alt="" />
             <div className="inner">
               <p>{res.displayName}</p>
               <p>{res.email}</p>

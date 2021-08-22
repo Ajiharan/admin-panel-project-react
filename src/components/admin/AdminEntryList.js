@@ -5,10 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectEntryDatas } from "../../features/admin/AdminEntrySlice";
 import { getEntry } from "../../features/admin/AdminEntryAction";
 import { selectUid } from "../../features/auth/UserSlice";
-import { db } from "../../Firebase";
+import { db, storage } from "../../Firebase";
 import { useLocation } from "react-router-dom";
 import { RiDeleteBin2Fill, RiEditCircleFill } from "react-icons/all";
-const AdminEntryList = () => {
+const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUid);
   const entryDatas = useSelector(selectEntryDatas);
@@ -38,6 +38,19 @@ const AdminEntryList = () => {
         console.log("er", er);
       });
   };
+
+  const editData = (data, id) => {
+    // let pathReference = storage.ref(`admin/${data.fileObj[0].name}`);
+    // console.log(pathReference);
+    setFormData({
+      fname: data.firstname,
+      lname: data.lastname,
+      address: data.address,
+      pno: data.phoneNo,
+    });
+    setEid(id);
+    setisUpdate(true);
+  };
   return (
     <AdminEntry>
       <Table striped bordered hover responsive>
@@ -56,8 +69,14 @@ const AdminEntryList = () => {
           {entryDatas.map(({ id, entry }) => (
             <tr key={id}>
               <td className="d-flex img-data">
-                {entry.imageArr.map((image) => (
-                  <img src={image} alt="profile" className="small-img" />
+                {entry.imageArr.map((image, i) => (
+                  <img
+                    key={i}
+                    src={image}
+                    alt="profile"
+                    loading="lazy"
+                    className="small-img"
+                  />
                 ))}
               </td>
               <td>{entry.firstname}</td>
@@ -85,11 +104,15 @@ const AdminEntryList = () => {
                 </span>
               </td>
               <td>
-                <button className="btn btn-success btn-sm spn-edit">
+                <button
+                  onClick={() => editData(entry, id)}
+                  className="btn btn-success btn-sm spn-edit"
+                >
                   Edit
                 </button>
                 <span className="icon-mob">
-                  <RiDeleteBin2Fill
+                  <RiEditCircleFill
+                    onClick={() => editData(entry, id)}
                     style={{ color: "green", cursor: "pointer" }}
                   />
                 </span>

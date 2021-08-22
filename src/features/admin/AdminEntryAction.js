@@ -11,6 +11,7 @@ import {
 } from "./AdminEntrySlice.js";
 
 const addEntry = (data) => (dispatch) => {
+  console.log("data", data);
   try {
     dispatch(addEntryRequest());
     db.collection("entries")
@@ -21,11 +22,13 @@ const addEntry = (data) => (dispatch) => {
         );
       })
       .catch((err) => {
+        // console.log(err);
         dispatch(
           addEntryFailure({ loading: false, error: err, entryData: null })
         );
       });
   } catch (err) {
+    // console.log(err);
     dispatch(addEntryFailure({ loading: false, error: err, entryData: null }));
   }
 };

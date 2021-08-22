@@ -12,6 +12,7 @@ const useAdminHandler = (
   setLoading
 ) => {
   const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       fname: "",
@@ -90,6 +91,7 @@ const useAdminHandler = (
                 address,
                 phoneNo: pno,
                 uid,
+                fileObj: fileObj.map(({ name }) => ({ name })),
               })
             );
 
