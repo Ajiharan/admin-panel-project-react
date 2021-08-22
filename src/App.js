@@ -16,6 +16,7 @@ import Home from "./components/super-admin/Home";
 import LoadingScreen from "./components/loading/LoadingScreen";
 import { Toaster } from "react-hot-toast";
 import AdminHome from "./components/admin/AdminHome";
+import EntryComponent from "./components/super-admin/EntryComponent";
 function App() {
   const emailVerified = useSelector(selectEmailVerified);
   const userName = useSelector(selectUserEmail);
@@ -42,6 +43,7 @@ function App() {
         <Switch>
           {/* super admin path */}
           <Route exact path="/home" component={Home} />
+          <Route exact path="/entries" component={EntryComponent} />
           <Redirect to="/home" />
         </Switch>
       );

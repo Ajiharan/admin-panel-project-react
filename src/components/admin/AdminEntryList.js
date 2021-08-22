@@ -8,7 +8,7 @@ import { selectUid } from "../../features/auth/UserSlice";
 import { db, storage } from "../../Firebase";
 import { useLocation } from "react-router-dom";
 import { RiDeleteBin2Fill, RiEditCircleFill } from "react-icons/all";
-const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
+const AdminEntryList = ({ setFormData, setEid, setisUpdate, userlevel }) => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUid);
   const entryDatas = useSelector(selectEntryDatas);
@@ -35,13 +35,14 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
     console.log("on route change", location.pathname);
   }, [location]);
   useEffect(() => {
-    const sub = dispatch(getEntry(userId));
+    const sub = dispatch(getEntry(userId, userlevel));
     return () => {
       if (sub) {
         console.log("tttt");
         sub();
       }
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId, dispatch, location.pathname]);
 
   const deleteEntry = (id) => {
@@ -71,74 +72,82 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
   };
   return (
     <AdminEntry>
-      <Table striped bordered hover responsive>
-        <thead>
-          <tr>
-            <th className="head-profile">Profiles</th>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Address</th>
-            <th>Phone no</th>
-            <th>Delete</th>
-            <th>Edit</th>
-          </tr>
-        </thead>
-        <tbody className="entry-form-data">
-          {entryDatas.map(({ id, entry }) => (
-            <tr key={id}>
-              <td className="d-flex img-data">
-                {entry.imageArr.map((image, i) => (
-                  <img
-                    key={i}
-                    src={image}
-                    alt="profile"
-                    loading="lazy"
-                    className="small-img"
-                  />
-                ))}
-              </td>
-              <td>{entry.firstname}</td>
-              <td>{entry.lastname}</td>
-              <td>{entry.address}</td>
-              <td>{entry.phoneNo}</td>
-              <td>
-                <button
-                  className="btn btn-danger btn-sm spn-del"
-                  onClick={() => {
-                    deleteEntry(id);
-                  }}
-                >
-                  Delete
-                </button>
-                <span
-                  className="icon-mob"
-                  onClick={() => {
-                    deleteEntry(id);
-                  }}
-                >
-                  <RiDeleteBin2Fill
-                    style={{ color: "red", cursor: "pointer" }}
-                  />
-                </span>
-              </td>
-              <td>
-                <button
-                  onClick={() => editData(entry, id)}
-                  className="btn btn-success btn-sm spn-edit"
-                >
-                  Edit
-                </button>
-                <span className="icon-mob">
-                  <RiEditCircleFill
-                    onClick={() => editData(entry, id)}
-                    style={{ color: "green", cursor: "pointer" }}
-                  />
-                </span>
-              </td>
+      {entryDatas.length > 0 ? (
+        <Table striped bordered hover responsive>
+          <thead>
+            <tr>
+              <th className="head-profile">Profiles</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Address</th>
+              <th>Phone no</th>
+              {!userlevel && <th>Delete</th>}
+              {!userlevel && <th>Edit</th>}
             </tr>
-          ))}
-        </tbody>
-      </Table>
+          </thead>
+          <tbody className="entry-form-data">
+            {entryDatas.map(({ id, entry }) => (
+              <tr key={id}>
+                <td className="d-flex img-data">
+                  {entry.imageArr.map((image, i) => (
+                    <img
+                      key={i}
+                      src={image}
+                      alt="profile"
+                      loading="lazy"
+                      className="small-img"
+                    />
+                  ))}
+                </td>
+                <td>{entry.firstname}</td>
+                <td>{entry.lastname}</td>
+                <td>{entry.address}</td>
+                <td>{entry.phoneNo}</td>
+                {!userlevel && (
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm spn-del"
+                      onClick={() => {
+                        deleteEntry(id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                    <span
+                      className="icon-mob"
+                      onClick={() => {
+                        deleteEntry(id);
+                      }}
+                    >
+                      <RiDeleteBin2Fill
+                        style={{ color: "red", cursor: "pointer" }}
+                      />
+                    </span>
+                  </td>
+                )}
+                {!userlevel && (
+                  <td>
+                    <button
+                      onClick={() => editData(entry, id)}
+                      className="btn btn-success btn-sm spn-edit"
+                    >
+                      Edit
+                    </button>
+                    <span className="icon-mob">
+                      <RiEditCircleFill
+                        onClick={() => editData(entry, id)}
+                        style={{ color: "green", cursor: "pointer" }}
+                      />
+                    </span>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      ) : (
+        <h3 className="text-danger text-center">No records are available</h3>
+      )}
     </AdminEntry>
   );
 };

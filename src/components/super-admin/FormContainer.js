@@ -113,9 +113,8 @@ const Bottom = styled.div`
     text-transform: uppercase;
     color: white;
     width: auto;
-
     height: 2rem;
-    padding: 0.5rem 0.5rem;
+    transition: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
     border: none;
     background-color: #1aa3ff;
     border-radius: 4px;
@@ -123,7 +122,7 @@ const Bottom = styled.div`
     z-index: 1;
     position: relative;
 
-    &:before {
+    /* &:before {
       content: "";
       width: 0rem;
       top: 0;
@@ -131,19 +130,16 @@ const Bottom = styled.div`
       height: 2rem;
       z-index: -1;
       left: 0;
-      transition: 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0s;
+     
       opacity: 1;
       position: absolute;
       background-color: #33bbff;
-    }
+    } */
   }
   .button-design {
     &:hover {
       button {
-        font-weight: 600;
-      }
-      button:before {
-        width: 6rem;
+        opacity: 0.9;
       }
     }
   }

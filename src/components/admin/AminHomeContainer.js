@@ -4,7 +4,7 @@ import LodingModal from "../common/LodingModal";
 import AdminEntry from "./AdminEntry";
 import AdminEntryList from "./AdminEntryList";
 
-const AminHomeContainer = () => {
+const AminHomeContainer = ({ userlevel }) => {
   const [loading, setLoading] = useState(false);
   const [eid, setEid] = useState(null);
   const [isUpdate, setisUpdate] = useState(false);
@@ -21,19 +21,23 @@ const AminHomeContainer = () => {
         <LodingModal show={loading} message="updating user entries.." />
       )}
       <Container>
-        <AdminEntry
-          loading={loading}
-          setLoading={setLoading}
-          formData={formData}
-          eid={eid}
-          isUpdate={isUpdate}
-          setEid={setEid}
-          setisUpdate={setisUpdate}
-        />
+        {!userlevel && (
+          <AdminEntry
+            loading={loading}
+            setLoading={setLoading}
+            formData={formData}
+            eid={eid}
+            isUpdate={isUpdate}
+            setEid={setEid}
+            setisUpdate={setisUpdate}
+          />
+        )}
+
         <AdminEntryList
           setisUpdate={setisUpdate}
           setFormData={setFormData}
           setEid={setEid}
+          userlevel={userlevel}
         />
       </Container>
     </React.Fragment>

@@ -6,10 +6,10 @@ import Button from "../common/Button";
 import useSignOut from "../useHooks/useSignOut";
 import { MdDashboard } from "react-icons/all";
 import { useSelector } from "react-redux";
-import { selectUid } from "../../features/auth/UserSlice";
+import { selectUserLevel } from "../../features/auth/UserSlice";
 
 const Header = () => {
-  const userlevel = useSelector(selectUid);
+  const userlevel = useSelector(selectUserLevel);
   return (
     <Navbar>
       <Link to="/" className="app-logo">
@@ -18,9 +18,8 @@ const Header = () => {
 
       <Paths>
         {userlevel === 1 && <Link to="/">Users</Link>}
-        <Link to="/">Entries</Link>
+        {userlevel === 1 && <Link to="/entries">Entries</Link>}
         <Link to="/">Profile</Link>
-        {userlevel === 1 && <Link to="/">Trash</Link>}
       </Paths>
       <div className="button-container">
         <Button

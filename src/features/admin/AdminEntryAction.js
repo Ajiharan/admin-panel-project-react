@@ -61,23 +61,47 @@ const updateEntry = (data, doc_id) => (dispatch) => {
   }
 };
 
-const getEntry = (uid) => (dispatch) => {
+const getEntry = (uid, userlevel) => (dispatch) => {
   try {
     dispatch(getEntryRequest());
-    const unsubscribe = db
-      .collection("entries")
-      .where("uid", "==", uid)
-      .onSnapshot(async (snapshot) => {
-        const tempData = await snapshot.docs.map((doc) => ({
-          id: doc.id,
-          entry: doc.data(),
-        }));
-        console.log("tempData", tempData);
-        dispatch(
-          getEntrySuccess({ loading: false, error: null, entryDatas: tempData })
-        );
-      });
-    return unsubscribe;
+    if (userlevel) {
+      const unsubscribe = db
+        .collection("entries")
+        .onSnapshot(async (snapshot) => {
+          const tempData = await snapshot.docs.map((doc) => ({
+            id: doc.id,
+            entry: doc.data(),
+          }));
+          console.log("tempData", tempData);
+          dispatch(
+            getEntrySuccess({
+              loading: false,
+              error: null,
+              entryDatas: tempData,
+            })
+          );
+        });
+      return unsubscribe;
+    } else {
+      const unsubscribe = db
+        .collection("entries")
+        .where("uid", "==", uid)
+        .onSnapshot(async (snapshot) => {
+          const tempData = await snapshot.docs.map((doc) => ({
+            id: doc.id,
+            entry: doc.data(),
+          }));
+          console.log("tempData", tempData);
+          dispatch(
+            getEntrySuccess({
+              loading: false,
+              error: null,
+              entryDatas: tempData,
+            })
+          );
+        });
+      return unsubscribe;
+    }
   } catch (err) {
     dispatch(getEntryFailure({ loading: false, error: err, entryDatas: [] }));
   }
