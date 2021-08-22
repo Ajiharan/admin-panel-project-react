@@ -1,7 +1,7 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { addEntry } from "../../features/admin/AdminEntryAction";
+import { addEntry, updateEntry } from "../../features/admin/AdminEntryAction";
 import toast from "react-hot-toast";
 const useAdminHandler = (
   fileObj,
@@ -9,7 +9,9 @@ const useAdminHandler = (
   setImage,
   storage,
   uid,
-  setLoading
+  setLoading,
+  isUpdate,
+  eid
 ) => {
   const dispatch = useDispatch();
 
@@ -18,7 +20,7 @@ const useAdminHandler = (
       fname: "",
       lname: "",
       pno: "",
-      upimage: "",
+      upimage: [],
       address: "",
     },
     validationSchema: Yup.object({
@@ -28,11 +30,10 @@ const useAdminHandler = (
         .required("phone number is required")
         .matches(/^7[123456789]\d{7}$/, "phone number is invalid"),
       address: Yup.string().required("address is required"),
-      upimage: Yup.array()
-        .required("please upload an image")
-        .min(2, "minimum 2 images are required"),
+      upimage: Yup.array().min(2, "minimum 2 images are required"),
     }),
     onSubmit: (values, { resetForm }) => {
+      console.log("valuess", values);
       setLoading(true);
       onUploadSubmission(resetForm, values);
     },
@@ -83,17 +84,51 @@ const useAdminHandler = (
         Promise.all(urlPromises)
           .then((res) => {
             const { fname, lname, pno, address } = values;
-            dispatch(
-              addEntry({
-                imageArr: res,
-                firstname: fname,
-                lastname: lname,
-                address,
-                phoneNo: pno,
-                uid,
-                fileObj: fileObj.map(({ name }) => ({ name })),
-              })
-            );
+            if (isUpdate) {
+              if (fileObj.length > 0) {
+                dispatch(
+                  updateEntry(
+                    {
+                      imageArr: res,
+                      firstname: fname,
+                      lastname: lname,
+                      address,
+                      phoneNo: pno,
+                      uid,
+                      fileObj: fileObj.map(({ name }) => ({ name })),
+                    },
+                    eid
+                  )
+                );
+              } else {
+                console.log("eid", eid);
+                dispatch(
+                  updateEntry(
+                    {
+                      imageArr: res,
+                      firstname: fname,
+                      lastname: lname,
+                      address,
+                      phoneNo: pno,
+                      uid,
+                    },
+                    eid
+                  )
+                );
+              }
+            } else {
+              dispatch(
+                addEntry({
+                  imageArr: res,
+                  firstname: fname,
+                  lastname: lname,
+                  address,
+                  phoneNo: pno,
+                  uid,
+                  fileObj: fileObj.map(({ name }) => ({ name })),
+                })
+              );
+            }
 
             resetForm();
             setFileObj([]);

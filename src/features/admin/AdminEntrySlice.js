@@ -11,6 +11,7 @@ const adminGetSlice = createSlice({
   initialState,
   reducers: {
     getEntryRequest: (state) => {
+      console.log("state", state);
       state.entryDatas = [];
       state.loading = false;
       state.error = null;

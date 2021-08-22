@@ -3,6 +3,9 @@ import {
   addEntryFailure,
   addEntryRequest,
   addEntrySuccess,
+  updateEntryFailure,
+  updateEntryRequest,
+  updateEntrySuccess,
 } from "./AdminSlice";
 import {
   getEntryFailure,
@@ -11,7 +14,7 @@ import {
 } from "./AdminEntrySlice.js";
 
 const addEntry = (data) => (dispatch) => {
-  console.log("data", data);
+  // console.log("data", data);
   try {
     dispatch(addEntryRequest());
     db.collection("entries")
@@ -30,6 +33,31 @@ const addEntry = (data) => (dispatch) => {
   } catch (err) {
     // console.log(err);
     dispatch(addEntryFailure({ loading: false, error: err, entryData: null }));
+  }
+};
+const updateEntry = (data, doc_id) => (dispatch) => {
+  // console.log("data", data, doc_id);
+  try {
+    dispatch(updateEntryRequest());
+    db.collection("entries")
+      .doc(doc_id)
+      .update(data)
+      .then((res) => {
+        dispatch(
+          updateEntrySuccess({ loading: false, error: null, entryData: data })
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+        dispatch(
+          updateEntryFailure({ loading: false, error: err, entryData: null })
+        );
+      });
+  } catch (err) {
+    // console.log(err);
+    dispatch(
+      updateEntryFailure({ loading: false, error: err, entryData: null })
+    );
   }
 };
 
@@ -55,4 +83,4 @@ const getEntry = (uid) => (dispatch) => {
   }
 };
 
-export { addEntry, getEntry };
+export { addEntry, getEntry, updateEntry };

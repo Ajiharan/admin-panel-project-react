@@ -10,6 +10,10 @@ import {
   selectEntryData,
   selectDataLoading,
   resetData,
+  selectEntryUpdateData,
+  selectUpdateDataError,
+  selectUpdateDataLoading,
+  resetupdateData,
 } from "../../features/admin/AdminSlice";
 import { selectUid } from "../../features/auth/UserSlice";
 import toast from "react-hot-toast";
@@ -33,19 +37,27 @@ const AdminEntry = ({
   const dataloading = useSelector(selectDataLoading);
   const entries = useSelector(selectEntryDatas);
 
+  const UpdatedataError = useSelector(selectUpdateDataError);
+  const UpdateentryData = useSelector(selectEntryUpdateData);
+  const Updatedataloading = useSelector(selectUpdateDataLoading);
+
   const { formik } = useAdminHandler(
     fileObj,
     setFileObj,
     setImages,
     storage,
     userId,
-    setLoading
+    setLoading,
+    isUpdate,
+    eid
   );
 
   useEffect(() => {
     formik.setValues(formData);
     if (entries.find(({ id }) => id === eid)?.entry?.imageArr.length > 0) {
       setImages(entries.find(({ id }) => id === eid)?.entry?.imageArr);
+    } else {
+      setImages([]);
     }
   }, [formData]);
 
@@ -58,9 +70,27 @@ const AdminEntry = ({
         toast.success("entry sucessfully updated");
       }
       dispatch(resetData());
+    } else if (
+      (UpdatedataError !== null || UpdateentryData !== null) &&
+      !Updatedataloading
+    ) {
+      setLoading(false);
+      if (UpdatedataError) {
+        toast.error("Oops something wrong");
+      } else {
+        toast.success("entry sucessfully updated");
+      }
+      dispatch(resetupdateData());
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dataError, entryData, dataloading]);
+  }, [
+    dataError,
+    entryData,
+    dataloading,
+    UpdatedataError,
+    Updatedataloading,
+    UpdateentryData,
+  ]);
 
   const uploadSingleFile = (e) => {
     setFileObj([...e.target.files]);
