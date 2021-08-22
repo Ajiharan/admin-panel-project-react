@@ -144,8 +144,31 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
 };
 
 const AdminEntry = styled.div`
+  .table-responsive {
+    height: 80vh;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      width: 5px;
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #888;
+      }
+
+      /* Handle on hover */
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+    }
+  }
   .icon-mob {
     display: none;
+  }
+  thead {
+    top: 0;
+    position: sticky;
+    background-color: lightgray;
   }
   margin-top: 1rem;
   padding: 0.5rem 1rem;
@@ -159,10 +182,7 @@ const AdminEntry = styled.div`
     width: 70px;
     height: fit-content;
   }
-  .table {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none;
-  }
+
   @media only screen and (max-width: 980px) {
     padding: 0.5rem 0.8rem;
     .small-img {
