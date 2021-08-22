@@ -14,6 +14,23 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
   const entryDatas = useSelector(selectEntryDatas);
   const location = useLocation();
 
+  // useEffect(() => {
+  //   window.addEventListener("resize", () => {
+  //     if (window.screen.width < 800) {
+  //       console.log("triggered");
+  //     }
+  //   });
+  // }, []);
+
+  const scrollToTop = () => {
+    if (window.screen.width < 800) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
   useEffect(() => {
     console.log("on route change", location.pathname);
   }, [location]);
@@ -40,6 +57,7 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate }) => {
   };
 
   const editData = (data, id) => {
+    scrollToTop();
     // let pathReference = storage.ref(`admin/${data.fileObj[0].name}`);
     // console.log(pathReference);
     setFormData({
