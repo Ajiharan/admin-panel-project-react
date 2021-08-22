@@ -75,6 +75,8 @@ const AdminEntry = ({
       !Updatedataloading
     ) {
       setLoading(false);
+      setisUpdate(false);
+      formik.resetForm({});
       if (UpdatedataError) {
         toast.error("Oops something wrong");
       } else {

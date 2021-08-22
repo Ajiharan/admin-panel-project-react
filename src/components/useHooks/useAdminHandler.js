@@ -101,11 +101,10 @@ const useAdminHandler = (
                   )
                 );
               } else {
-                console.log("eid", eid);
+                // console.log("eid", eid);
                 dispatch(
                   updateEntry(
                     {
-                      imageArr: res,
                       firstname: fname,
                       lastname: lname,
                       address,
