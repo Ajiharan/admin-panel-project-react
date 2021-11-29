@@ -11,9 +11,9 @@
   align-items: center;
   padding: 1rem;
   min-height: 30vh;
-  border-radius: 20px;
-  background-color: rgb(58, 56, 56);
-  opacity: 0.89;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+
   color: white;
 }
 

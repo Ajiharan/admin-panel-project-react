@@ -116,7 +116,9 @@ const AdminEntry = ({
     <Upload>
       <UploadImages>
         {images.length > 0 &&
-          images.map((imageUrl, i) => <img src={imageUrl} alt="Nic" key={i} />)}
+          images.map((imageUrl, i) => (
+            <img src={imageUrl} alt="Nic" key={i} loading="lazy" />
+          ))}
       </UploadImages>
       <UploadForm onSubmit={formik.handleSubmit}>
         <div className="form-group">
@@ -145,7 +147,12 @@ const AdminEntry = ({
         </div>
         <div className="form-group">
           <label>First Name</label>
-          <input name="fname" placeholder='eg:-peter' type="text" {...formik.getFieldProps("fname")} />
+          <input
+            name="fname"
+            placeholder="eg:-peter"
+            type="text"
+            {...formik.getFieldProps("fname")}
+          />
           {formik.touched.fname && formik.errors.fname ? (
             <p>{formik.errors.fname}</p>
           ) : (
@@ -154,7 +161,12 @@ const AdminEntry = ({
         </div>
         <div className="form-group">
           <label>Last Name</label>
-          <input name="lname" placeholder='eg:-parker' type="text" {...formik.getFieldProps("lname")} />
+          <input
+            name="lname"
+            placeholder="eg:-parker"
+            type="text"
+            {...formik.getFieldProps("lname")}
+          />
           {formik.touched.lname && formik.errors.lname ? (
             <p>{formik.errors.lname}</p>
           ) : (
@@ -163,7 +175,12 @@ const AdminEntry = ({
         </div>
         <div className="form-group">
           <label>Phone Number</label>
-          <input name="pno" placeholder='eg:-772599631' type="number" {...formik.getFieldProps("pno")} />
+          <input
+            name="pno"
+            placeholder="eg:-772599631"
+            type="number"
+            {...formik.getFieldProps("pno")}
+          />
           {formik.touched.pno && formik.errors.pno ? (
             <p>{formik.errors.pno}</p>
           ) : (
@@ -172,7 +189,10 @@ const AdminEntry = ({
         </div>
         <div className="form-group">
           <label>Address</label>
-          <textarea placeholder='eg:-Washington Dc,America' {...formik.getFieldProps("address")} />
+          <textarea
+            placeholder="eg:-Washington Dc,America"
+            {...formik.getFieldProps("address")}
+          />
           {formik.touched.address && formik.errors.address ? (
             <p>{formik.errors.address}</p>
           ) : (

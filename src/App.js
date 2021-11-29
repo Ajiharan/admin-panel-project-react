@@ -61,7 +61,6 @@ function App() {
   return (
     <div className="App">
       <Router>
-        {" "}
         <Toaster />
         {checkUserLogin()}
       </Router>

@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
+import { LoaderIcon } from "react-hot-toast";
 
 import "./LoadingModal.css";
 
@@ -20,7 +21,7 @@ const LodingModal = ({
     >
       <Modal.Body>
         <div className="modalContainer__body">
-          <p>loading...</p>
+          <LoaderIcon />
           <p className="text-lead fw-bold text-warning">{message}</p>
         </div>
       </Modal.Body>

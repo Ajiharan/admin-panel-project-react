@@ -13,7 +13,7 @@ const UserStatus = () => {
         {searchData?.map((res) => (
           <Wrap key={res.uid}>
             <span></span>
-            <img src={res.photoURL} alt="" />
+            <img src={res.photoURL} alt="" loading="lazy" />
             <div className="inner">
               <p>{res.displayName}</p>
             </div>
