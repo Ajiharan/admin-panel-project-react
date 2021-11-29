@@ -63,6 +63,7 @@ const BodyContainer = () => {
 };
 
 const ContainerBody = styled.div`
+  margin-top: 3rem;
   display: grid;
   overflow-x: hidden;
   background-color: white;

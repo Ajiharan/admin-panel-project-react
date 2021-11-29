@@ -36,11 +36,13 @@ const Header = () => {
 
 const Navbar = styled.nav`
   width: 100vw;
+  z-index: 9;
   background-color: #2d5986;
   height: 60px;
   display: flex;
   align-items: center;
-
+  position: fixed;
+  top: 0;
   .app-logo {
     margin-left: 10px;
     text-decoration: none;

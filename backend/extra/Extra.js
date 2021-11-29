@@ -2,6 +2,7 @@ import admin from "firebase-admin";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
+
 export const verifyAdmin = async (uid) => {
   // Lookup the user associated with the specified uid.
   let isAdmin = false;
@@ -16,6 +17,7 @@ export const verifyAdmin = async (uid) => {
     .catch((err) => {});
   return isAdmin;
 };
+
 export const tokenValidator = async (token) => {
   try {
     const data = await jwt.verify(token, process.env.SECREAT_KEY);

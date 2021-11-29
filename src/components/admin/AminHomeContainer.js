@@ -47,6 +47,8 @@ const Container = styled.div`
   display: flex;
   flex-wrap: nowrap;
   overflow-x: hidden;
+  margin-top: 3rem;
+
   @media only screen and (max-width: 800px) {
     flex-wrap: wrap;
   }
