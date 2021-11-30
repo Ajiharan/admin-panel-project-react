@@ -17,6 +17,7 @@ import LoadingScreen from "./components/loading/LoadingScreen";
 import { Toaster } from "react-hot-toast";
 import AdminHome from "./components/admin/AdminHome";
 import EntryComponent from "./components/super-admin/EntryComponent";
+import "react-loading-skeleton/dist/skeleton.css";
 function App() {
   const emailVerified = useSelector(selectEmailVerified);
   const userName = useSelector(selectUserEmail);

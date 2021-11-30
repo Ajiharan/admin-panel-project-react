@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -13,6 +13,8 @@ import { toast } from "react-hot-toast";
 import { setLoadingDefault } from "../../features/auth/userListSlice";
 import SearchContainer from "../common/search/SearchContainer";
 import { AiFillDelete } from "react-icons/all";
+import SkeletonLoading from "../common/SkeletonLoading";
+import Skeleton from "react-loading-skeleton";
 const UserListContainer = () => {
   const [userData, setUserData] = useState([]);
   const userList = useSelector(selectuserslist);
@@ -20,6 +22,7 @@ const UserListContainer = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log("userListLoading", userListLoading);
     if (userList.length > 0) {
       setUserData(userList);
     }
@@ -62,53 +65,63 @@ const UserListContainer = () => {
 
   return (
     <Container>
-      <div className="top-header">
-        <h4 className="mt-4">
-          {userListLoading ? "loading..." : `user lists: (${userData.length})`}
-        </h4>
-        <SearchContainer onchange={onchange} />
-      </div>
+      {userListLoading ? (
+        <Skeleton width="100%" height="3rem" />
+      ) : (
+        <div className="top-header">
+          <h4 className="mt-4">{`user lists: (${userData.length})`}</h4>
+          <SearchContainer onchange={onchange} />
+        </div>
+      )}
 
       <div className="list-container">
-        {userData.length === 0 && (
+        {userData.length === 0 && !userListLoading && (
           <p className="no-record-found">!!Oops no records found</p>
         )}
-        {userData.map((res) => (
-          <Wrap key={res.uid}>
-            <img src={res.photoURL} loading="lazy" alt="" />
-            <div className="inner">
-              <p>{res.displayName}</p>
-              <p>{res.email}</p>
-              <p>{res.uid}</p>
-            </div>
-            <div className="inner-button">
-              <div className="text-btn">
-                <Button
-                  children={`${res.disabled ? "Activate" : "Deactivate"}`}
-                  buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
-                  disabled={userListLoading}
-                  onclick={() => {
-                    deactivateAccount(res.uid, !res.disabled);
-                  }}
-                />
+        {userListLoading ? (
+          <React.Fragment>
+            <SkeletonLoading />
+            <SkeletonLoading />
+            <SkeletonLoading />
+          </React.Fragment>
+        ) : (
+          userData.map((res) => (
+            <Wrap key={res.uid}>
+              <img src={res.photoURL} loading="lazy" alt="" />
+              <div className="inner">
+                <p>{res.displayName}</p>
+                <p>{res.email}</p>
+                <p>{res.uid}</p>
               </div>
+              <div className="inner-button">
+                <div className="text-btn">
+                  <Button
+                    children={`${res.disabled ? "Activate" : "Deactivate"}`}
+                    buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
+                    disabled={userListLoading}
+                    onclick={() => {
+                      deactivateAccount(res.uid, !res.disabled);
+                    }}
+                  />
+                </div>
 
-              <div className="icon-btn">
-                <Button
-                  children={`${res.disabled ? "Activate" : "Deactivate"}`}
-                  buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
-                  disabled={userListLoading}
-                  childrenIcon={
-                    res.disabled ? <AiFillDelete /> : <AiFillDelete />
-                  }
-                  onclick={() => {
-                    deactivateAccount(res.uid, !res.disabled);
-                  }}
-                />
+                <div className="icon-btn">
+                  <Button
+                    children={`${res.disabled ? "Activate" : "Deactivate"}`}
+                    buttonColor={`${res.disabled ? "#00bfff" : "coral"}`}
+                    disabled={userListLoading}
+                    childrenIcon={
+                      res.disabled ? <AiFillDelete /> : <AiFillDelete />
+                    }
+                    onclick={() => {
+                      deactivateAccount(res.uid, !res.disabled);
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          </Wrap>
-        ))}
+            </Wrap>
+          ))
+        )}
       </div>
     </Container>
   );
@@ -123,6 +136,7 @@ const Container = styled.div`
   flex: 1 2;
   margin-left: 1rem;
   padding: 0.5rem;
+
   .top-header {
     display: flex;
     width: 100%;
