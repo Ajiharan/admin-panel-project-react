@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  loading: false,
+  loading: true,
   entryDatas: [],
   error: null,
 };
@@ -13,7 +13,7 @@ const adminGetSlice = createSlice({
     getEntryRequest: (state) => {
       console.log("state", state);
       state.entryDatas = [];
-      state.loading = false;
+      state.loading = true;
       state.error = null;
     },
     getEntrySuccess: (state, action) => {
@@ -28,7 +28,7 @@ const adminGetSlice = createSlice({
     },
     resetEntryData: (state) => {
       state.entryDatas = [];
-      state.loading = false;
+      state.loading = true;
       state.error = null;
     },
   },

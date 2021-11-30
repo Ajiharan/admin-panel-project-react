@@ -2,18 +2,23 @@ import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { selectEntryDatas } from "../../features/admin/AdminEntrySlice";
+import {
+  selectEntryDatas,
+  selectEntryDatasLoading,
+} from "../../features/admin/AdminEntrySlice";
 import { getEntry } from "../../features/admin/AdminEntryAction";
 import { selectUid } from "../../features/auth/UserSlice";
 import { db, storage } from "../../Firebase";
 import { useLocation } from "react-router-dom";
 import { RiDeleteBin2Fill, RiEditCircleFill } from "react-icons/all";
+import Skeleton from "react-loading-skeleton";
 const AdminEntryList = ({ setFormData, setEid, setisUpdate, userlevel }) => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUid);
   const entryDatas = useSelector(selectEntryDatas);
   const location = useLocation();
 
+  const loading = useSelector(selectEntryDatasLoading);
   // useEffect(() => {
   //   window.addEventListener("resize", () => {
   //     if (window.screen.width < 800) {
@@ -72,7 +77,12 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate, userlevel }) => {
   };
   return (
     <AdminEntry>
-      {entryDatas.length > 0 ? (
+      {loading ? (
+        <React.Fragment>
+          <Skeleton count={1} width="100%" height="2.8rem" />
+          <Skeleton count={10} width="100%" height="1.2rem" />
+        </React.Fragment>
+      ) : entryDatas.length > 0 ? (
         <Table striped bordered hover responsive>
           <thead>
             <tr>
@@ -95,6 +105,7 @@ const AdminEntryList = ({ setFormData, setEid, setisUpdate, userlevel }) => {
                       src={image}
                       alt="profile"
                       loading="lazy"
+                      small-img
                       className="small-img"
                     />
                   ))}
@@ -198,6 +209,7 @@ const AdminEntry = styled.div`
       flex: 1 1;
       margin: 4px;
       width: 50px;
+      height: 80px;
       height: fit-content;
     }
     th,
